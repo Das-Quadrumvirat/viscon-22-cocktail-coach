@@ -70,7 +70,10 @@ export default defineEventHandler(async (event) => {
     })
 
     if (drink === null) {
-        throw new Error("There was no drink found with this id.");
+        throw createError({
+            statusCode: 404,
+            statusMessage: "Not Found"
+        })
     }
 
     const ret: DrinkResponse = {
