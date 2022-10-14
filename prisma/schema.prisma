@@ -11,21 +11,22 @@ datasource db {
 }
 
 model Drink {
-  id           Int            @id @default(autoincrement())
-  name         String
-  tags         Tag[]
-  category     Category?      @relation(fields: [categoryId], references: [id])
-  categoryId   Int
-  iba          IBA            @relation(fields: [iBAId], references: [id])
-  iBAId        Int
-  alcoholic    Boolean
-  glass        Glass          @relation(fields: [glassId], references: [id])
-  glassId      Int
-  instructions Instructions[]
-  drinkThumb   String?
-  ingredients  Ingredient[]
-  measures     String[]
-  imageSource  String
+  id               Int            @id @default(autoincrement())
+  name             String
+  tags             Tag[]
+  category         Category?      @relation(fields: [categoryId], references: [id])
+  categoryId       Int
+  iba              IBA            @relation(fields: [iBAId], references: [id])
+  iBAId            Int
+  alcoholic        Boolean
+  glass            Glass          @relation(fields: [glassId], references: [id])
+  glassId          Int
+  instructions     Instructions[]
+  drinkThumb       String?
+  ingredients      Ingredient[]
+  measures         String[]
+  imageAttribution String?
+  imageSource      String?
 }
 
 model Category {
