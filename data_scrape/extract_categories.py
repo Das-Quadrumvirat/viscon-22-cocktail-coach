@@ -8,4 +8,5 @@ categories = set({})
 for drink in j:
     categories.add(drink['strCategory'])
 
-print(categories)
+with open('categories.json', 'w') as f:
+    json.dump(list(categories), f, indent=2)

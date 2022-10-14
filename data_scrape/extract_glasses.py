@@ -8,4 +8,5 @@ glasses = set({})
 for drink in j:
     glasses.add(drink['strGlass'])
 
-print(glasses)
+with open('glasses.json', 'w') as f:
+    json.dump(list(glasses), f, indent=2)

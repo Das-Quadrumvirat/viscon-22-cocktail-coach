@@ -11,4 +11,5 @@ for drink in j:
         for tag in taglist.split(','):
             tags.add(tag)
 
-print(tags)
+with open('tags.json', 'w') as f:
+    json.dump(list(tags), f, indent=2)
