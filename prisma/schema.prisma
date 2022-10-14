@@ -72,7 +72,7 @@ enum Lang {
 }
 
 model Instructions {
-  id      Int    @id
+  id      Int    @id @default(autoincrement())
   lang    Lang
   text    String
   Drink   Drink? @relation(fields: [drinkId], references: [id])
