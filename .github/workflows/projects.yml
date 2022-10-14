@@ -1,0 +1,23 @@
+name: Add to projects
+
+on:
+  issues:
+    types:
+      - opened
+      - labeled
+      - transferred
+  pull_request:
+    types:
+      - opened
+      - labeled
+
+
+jobs:
+  add-to-project:
+    name: Add issue to project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/add-to-project@v0.3.0
+        with:
+          project-url: https://github.com/users/umgefahren/projects/3
+          github-token: ${{ secrets.GH_PROJECTS }}
