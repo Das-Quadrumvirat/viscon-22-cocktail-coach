@@ -4,6 +4,7 @@ specifiers:
   '@nuxtjs/tailwindcss': ^5.3.5
   daisyui: ^2.31.0
   nuxt: 3.0.0-rc.11
+  prisma: ^4.4.0
 
 dependencies:
   daisyui: 2.31.0
@@ -11,6 +12,7 @@ dependencies:
 devDependencies:
   '@nuxtjs/tailwindcss': 5.3.5
   nuxt: 3.0.0-rc.11
+  prisma: 4.4.0
 
 packages:
 
@@ -626,6 +628,11 @@ packages:
       - supports-color
       - ts-node
       - webpack
+    dev: true
+
+  /@prisma/engines/4.4.0:
+    resolution: {integrity: sha512-Fpykccxlt9MHrAs/QpPGpI2nOiRxuLA+LiApgA59ibbf24YICZIMWd3SI2YD+q0IAIso0jCGiHhirAIbxK3RyQ==}
+    requiresBuild: true
     dev: true
 
   /@rollup/plugin-alias/3.1.9_rollup@2.79.1:
@@ -4198,6 +4205,15 @@ packages:
   /pretty-bytes/6.0.0:
     resolution: {integrity: sha512-6UqkYefdogmzqAZWzJ7laYeJnaXDy2/J+ZqiiMtS7t7OfpXWTlaeGMwX8U6EFvPV/YWWEKRkS8hKS4k60WHTOg==}
     engines: {node: ^14.13.1 || >=16.0.0}
+    dev: true
+
+  /prisma/4.4.0:
+    resolution: {integrity: sha512-l/QKLmLcKJQFuc+X02LyICo0NWTUVaNNZ00jKJBqwDyhwMAhboD1FWwYV50rkH4Wls0RviAJSFzkC2ZrfawpfA==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    requiresBuild: true
+    dependencies:
+      '@prisma/engines': 4.4.0
     dev: true
 
   /process-nextick-args/2.0.1:
