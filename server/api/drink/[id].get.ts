@@ -1,5 +1,5 @@
 import { Lang } from "@prisma/client"
-import { client } from "~~/server/utils/db/main"
+import { client } from "../../utils/db/main"
 
 export type CategoryDrinkResponse = {
     id: number,
@@ -49,7 +49,8 @@ export type DrinkResponse = {
     drinkThumb: string | null,
     ingredients: IngredientDrinkResponse[],
     measures: string[],
-    imageSource: string,
+    imageAttribution: string | null,
+    imageSource: string | null,
 }
 
 export default defineEventHandler(async (event) => {
@@ -84,6 +85,7 @@ export default defineEventHandler(async (event) => {
         drinkThumb: drink.drinkThumb,
         ingredients: drink.ingredients,
         measures: drink.measures,
+        imageAttribution: drink.imageAttribution,
         imageSource: drink.imageSource
     }
 
