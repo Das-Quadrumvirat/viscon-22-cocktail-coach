@@ -31,25 +31,25 @@ model Drink {
 
 model Category {
   id    Int     @id @default(autoincrement())
-  name  String
+  name  String  @unique
   Drink Drink[]
 }
 
 model IBA {
   id    Int     @id @default(autoincrement())
-  name  String
+  name  String @unique
   Drink Drink[]
 }
 
 model Glass {
   id    Int     @id @default(autoincrement())
-  name  String
+  name  String @unique
   Drink Drink[]
 }
 
 model Ingredient {
   id          Int     @id @default(autoincrement())
-  name        String
+  name        String @unique
   description String
   type        String
   alcohol     Boolean
@@ -59,7 +59,7 @@ model Ingredient {
 
 model Tag {
   id     Int     @id @default(autoincrement())
-  name   String
+  name   String @unique
   drinks Drink[]
 }
 
