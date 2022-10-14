@@ -41,5 +41,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --shamefully-hoist
 
+      - name: Generate Prisma
+        run: pnpm prisma generate
+
       - name: Build
         run: pnpm build
