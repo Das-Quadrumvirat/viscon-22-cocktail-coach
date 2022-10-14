@@ -20,7 +20,7 @@ jobs:
           check-latest: true
       
       - name: Install pnpm 
-        uses: pnpm/action-setup@v2.0.1
+        uses: pnpm/action-setup@v2.2.3
         with:
           version: 7
           run_install: false
