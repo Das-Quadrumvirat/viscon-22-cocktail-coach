@@ -11,5 +11,5 @@ jobs:
       - uses: umgefahren/hackathon-action@v1.3
         with:
           issue_number: 1
-          hackathon_end: "10/16/2022 16:00:00"
+          hackathon_end: "10/16/2022 12:00:00"
           my_token: ${{ secrets.GITHUB_TOKEN }}
