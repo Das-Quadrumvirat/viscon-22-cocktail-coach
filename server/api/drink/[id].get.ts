@@ -1,0 +1,91 @@
+import { Lang } from "@prisma/client"
+import { client } from "~~/server/utils/db/main"
+
+export type CategoryDrinkResponse = {
+    id: number,
+    name: string, 
+}
+
+export type IbaDrinkResponse = {
+    id: number,
+    name: string, 
+}
+
+export type GlassDrinkResponse = {
+    id: number,
+    name: string,
+}
+
+export type IngredientDrinkResponse = {
+    id: number,
+    name: string,
+    description: string,
+    type: string,
+    alcohol: boolean,
+}
+
+export type TagDrinkResponse = {
+    id: number,
+    name: string
+}
+
+export type LangDrinkResponse = Lang
+
+export type InstructionsDrinkResponse = {
+    id: number,
+    lang: LangDrinkResponse,
+    text: string,
+}
+
+export type DrinkResponse = {
+    id: number,
+    name: string,
+    tags: TagDrinkResponse[],
+    category: CategoryDrinkResponse | null,
+    iba: IbaDrinkResponse,
+    alcoholic: boolean,
+    glass: GlassDrinkResponse,
+    instructions: InstructionsDrinkResponse[],
+    drinkThumb: string | null,
+    ingredients: IngredientDrinkResponse[],
+    measures: string[],
+    imageSource: string,
+}
+
+export default defineEventHandler(async (event) => {
+    const id = parseInt(event.context.params.id)
+    const drink = await client.drink.findFirst({
+        where: {
+            id: id
+        },
+        include: {
+            tags: true,
+            category: true,
+            iba: true,
+            glass: true,
+            instructions: true,
+            ingredients: true,
+        }
+    })
+
+    if (drink === null) {
+        throw new Error("There was no drink found with this id.");
+    }
+
+    const ret: DrinkResponse = {
+        id: drink.id,
+        name: drink.name,
+        tags: drink.tags,
+        category: drink.category,
+        iba: drink.iba,
+        alcoholic: drink.alcoholic,
+        glass: drink.glass,
+        instructions: drink.instructions,
+        drinkThumb: drink.drinkThumb,
+        ingredients: drink.ingredients,
+        measures: drink.measures,
+        imageSource: drink.imageSource
+    }
+
+    return ret
+})
