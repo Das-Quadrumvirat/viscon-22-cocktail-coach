@@ -13,7 +13,7 @@ datasource db {
 model Drink {
   id             Int          @id @default(autoincrement())
   name           String
-  tags           String[]
+  tags           Tag[]
   category       Category?    @relation(fields: [categoryId], references: [id])
   categoryId     Int
   iba            IBA          @relation(fields: [iBAId], references: [id])
@@ -58,4 +58,10 @@ model Ingredient {
   alcohol     Boolean
   ABV         Int
   drinks      Drink[]
+}
+
+model Tag {
+  id     Int     @id @default(autoincrement())
+  name   String
+  drinks Drink[]
 }
