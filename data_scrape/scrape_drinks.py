@@ -16,7 +16,7 @@ def main():
     xs = []
     c = 0
     i = 11000
-    
+
     if input("Do you really want to scrape again? (yes/no): ") != 'yes':
         return
 
