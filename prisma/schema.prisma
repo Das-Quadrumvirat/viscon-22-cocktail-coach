@@ -50,7 +50,7 @@ model Glass {
 model Ingredient {
   id          Int     @id @default(autoincrement())
   name        String @unique
-  description String
+  description String?
   type        String
   alcohol     Boolean
   ABV         Int
