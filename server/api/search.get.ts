@@ -10,7 +10,7 @@ export default defineEventHandler(async (event): Promise<SearchResult> => {
   let q = query.q.toString()
   let page = parseInt(query.page.toString())
   let maxItems = parseInt(query.maxItems.toString())
-  // let available = query.available as string[]
+  let available = query.available as string[]
   let filtered = query.filtered as string[]
 
   const limit = maxItems
@@ -24,6 +24,17 @@ export default defineEventHandler(async (event): Promise<SearchResult> => {
   }
 
   const res: SearchResponse = await client.index('drinks').search(q, queryOpts)
+  res.hits = res.hits.filter(a => {
+    let b = a.ingredients.length
+    for (let ing of a.ingredients) {
+      if (available.includes(ing)) {
+        b--
+      }
+    }
+    return b <= 1
+  }
+  )
+
   let ingrArr: Map<string, number> = new Map()
   for (let hit of res.hits) {
     for (let ingr of hit.ingredients) {
