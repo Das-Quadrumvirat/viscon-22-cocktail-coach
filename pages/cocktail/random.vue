@@ -1,37 +1,42 @@
 <template>
     <div>
-        <div class="card w-96 bg-neutral text-neutral-content mx-auto m-3">
-            <div class="card-body items-center text-center">
-                <h2 class="card-title">Lucky Cocktail</h2>
-                <p>A random cocktail just for you.</p>
-                <div class="card-actions justify-end">
-                    <button class="btn btn-primary" @click="getRandomCocktail">Go!</button>
+        <div>
+            <div
+                class="absolute top-0 navbar mb-8 px-8 py-4 z-50 bg-black bg-opacity-40 shadow-xl"
+            >
+                <div class="flex w-20">
+                    <button @click="back" class="btn btn-ghost">
+                        <font-awesome-icon icon="fa-solid fa-arrow-left" />
+                    </button>
+                </div>
+                <div class="flex flex-grow justify-center">
+                    <h1 class="text-4xl text-bold text-white">
+                        Your random Cocktail!
+                    </h1>
+                </div>
+                <div class="w-20 justify-self-end">
+                    <button class="btn btn-primary" @click="getRandomCocktail">
+                        Next
+                    </button>
                 </div>
             </div>
         </div>
-
-        <a :href="`/cocktail/${cocktail.slug}`" v-if="cocktail">
-            <Cocktail :cocktail="cocktail" />
-        </a>
+        <Cocktail v-if="cocktail" :cocktail="cocktail" />
     </div>
 </template>
 
 <script setup>
-import Cocktail from '~~/components/cocktail.vue';
-</script>
-<script>
-export default {
-    data() {
-        return {
-            cocktail: null,
-        }
-    },
-    methods: {
-        async getRandomCocktail() {
-            const hit = await $fetch("/api/drink/random")
-            console.log(hit)
-            this.cocktail = hit
-        }
-    }
+import Cocktail from '~~/components/cocktail.vue'
+
+const cocktail = ref(null)
+
+async function getRandomCocktail() {
+    cocktail.value = await $fetch('/api/drink/random')
+}
+
+onBeforeMount(() => getRandomCocktail())
+
+function back() {
+    document.location.pathname = '/'
 }
 </script>
