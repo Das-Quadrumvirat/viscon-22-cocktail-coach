@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   typescript: {
     shim: false
   },
+  components: true,
   app: {
     head: {
       link: [
@@ -14,6 +15,9 @@ export default defineNuxtConfig({
       ]
     }
   },
+  css: [
+    '@fortawesome/fontawesome-svg-core/styles.css'
+  ],
   runtimeConfig: {
     // The private keys which are only available within server-side
     apiSecret: process.env.MEILIKEY,

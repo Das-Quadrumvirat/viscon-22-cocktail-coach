@@ -13,6 +13,9 @@
     "prisma": "^4.4.0"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.2.0",
+    "@fortawesome/free-solid-svg-icons": "^6.2.0",
+    "@fortawesome/vue-fontawesome": "^3.0.1",
     "@prisma/client": "^4.4.0",
     "daisyui": "^2.31.0",
     "meilisearch": "^0.28.0",
