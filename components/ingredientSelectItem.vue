@@ -1,7 +1,7 @@
 <template>
     <div
         @click="toggle"
-        class="card md:w-56 w-32 md:h-56 h-44 bg-primary shadow-xl m-4 text-white hover:scale-110 ease-in duration-[50ms]"
+        class="card md:w-56 w-32 md:h-56 h-44 bg-primary shadow-xl m-4 text-white hover:scale-110 ease-in duration-[50ms] cursor-pointer"
         :class="{ 'bg-secondary': selected }"
     >
         <div class="place-content-center items-center card-body">
