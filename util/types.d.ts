@@ -19,8 +19,10 @@ export type Drink = {
     glass: String,
     instructions: String[],
     drinkThumb: String | null,
-    ingredients: String[],
-    measures: String[],
+    ingredients: {
+        ingredient: Ingredient,
+        measure: String
+    }[],
     imageAttribution: String | null,
     imageSource: String | null,
 }

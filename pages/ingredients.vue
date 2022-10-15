@@ -20,12 +20,31 @@
                 <ais-hits>
                     <template v-slot="{ items }">
                         <div class="flex flex-wrap justify-evenly">
-                            <IngredientSelectItem
-                                v-for="{ name, slug } in items"
-                                v-bind:key="name"
-                                :name="name"
-                                :slug="slug"
-                            />
+                            <template
+                                v-for="{ slug, name } in items"
+                                v-bind:key="slug"
+                            >
+                                <IngredientSelectItem
+                                    v-if="selected.includes(slug)"
+                                    :slug="slug"
+                                    :name="name"
+                                    :selected="true"
+                                />
+                            </template>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="flex flex-wrap justify-evenly">
+                            <template
+                                v-for="{ slug, name } in items"
+                                v-bind:key="slug"
+                            >
+                                <IngredientSelectItem
+                                    v-if="!selected.includes(slug)"
+                                    :slug="slug"
+                                    :name="name"
+                                    :selected="false"
+                                />
+                            </template>
                         </div>
                     </template>
                 </ais-hits>
@@ -39,8 +58,13 @@ import {
     AisInstantSearch,
     AisHits,
     AisSearchBox,
-    AisConfigure
+    AisConfigure,
 } from 'vue-instantsearch/vue3/es'
+import { useStore } from '~/stores/state'
+
+const store = useStore()
 
 const client = useMeilisearchClient()
+
+const selected = computed(() => store.selectedIngredients)
 </script>

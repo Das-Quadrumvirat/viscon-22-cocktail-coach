@@ -10,7 +10,9 @@
             </div>
         </div>
 
+        <a :href="`/cocktail/${cocktail.slug}`" v-if="cocktail">
             <Cocktail :cocktail="cocktail" v-if="cocktail" />
+        </a>
     </div>
 </template>
 
