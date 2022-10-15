@@ -15,7 +15,7 @@
                     <template v-for="({ingredient, measure}, index) in cocktail.ingredients">
                         <div class="flex flex-col mx-5" :class="{'mb-5': index < cocktail.ingredients.length - 1 }">
                             <p class="opacity-60">{{ measure }}</p>
-                            <p>{{ ingredient.name }}</p>
+                            <a :href="'/ingredient/' + ingredient.slug">{{ ingredient.name }}</a>
                         </div>
                     </template>
                 </div>

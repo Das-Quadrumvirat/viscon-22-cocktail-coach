@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
     description: ing.description,
     ingredientType: ing.ingredientType,
     alcohol: ing.alcohol,
-    ABV: ing.ABV,
+    ABV: ing.abv,
   }
 
   return ret
