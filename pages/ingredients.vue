@@ -89,8 +89,7 @@ const client = useMeilisearchClient()
 const selected = computed(() => store.selectedIngredients)
 
 function search(event) {
-    const router = useRouter()
-    router.push('/search')
+    document.location.pathname = '/search'
 }
 
 function back(event) {

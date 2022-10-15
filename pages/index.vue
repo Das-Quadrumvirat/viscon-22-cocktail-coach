@@ -93,7 +93,6 @@ const { data: cocktails } = await useFetch('/api/drinks', {
 })
 
 function search(event) {
-    const router = useRouter()
-    router.push('/search')
+    document.location.pathname = '/search'
 }
 </script>
