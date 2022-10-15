@@ -74,12 +74,6 @@ export default {
           helper.search()
         },
       }
-    },
-    methods: {
-        back(event) {
-            const router = useRouter()
-            router.back()
-        }
     }
 }
 </script>
@@ -104,4 +98,8 @@ const client = useMeilisearchClient()
 const store = useStore()
 
 const selected = computed(() => store.selectedIngredients)
+
+function back(event) {
+    document.location.pathname = '/'
+}
 </script>
