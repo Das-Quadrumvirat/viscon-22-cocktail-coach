@@ -27,7 +27,7 @@ export default defineNuxtConfig({
     }
   },
   meilisearch: {
-   hostUrl: 'http://cocktailcoach.vypxl.io:7700/',
+   hostUrl: 'https://meili.cocktailcoach.vypxl.io/',
    apiKey: '0ce4e8a6b5e30dcd5a383a4c764d47c553a7039f5c4e62cc9ac871e7c8a3b9d7',
    instantSearch: {
      theme: 'algolia'
