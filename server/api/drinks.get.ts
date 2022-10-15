@@ -9,7 +9,7 @@ export default defineEventHandler(async (event): Promise<Drink[]> => {
     sort: ["slug:asc"]
   }
   if (query.limit) queryOpts.limit = parseInt(query.limit.toString())
-  if (query.offst) queryOpts.offset = parseInt(query.limit.toString())
+  if (query.offset) queryOpts.offset = parseInt(query.offset.toString())
   const res = await client.index('drinks').search('', queryOpts)
   return Promise.all(res.hits.map(async (hit) => {
     const ingredients = await Promise.all(hit.ingredients.map(async (slug, index): Promise<{
