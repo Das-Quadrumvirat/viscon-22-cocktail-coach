@@ -1,107 +1,113 @@
 <template>
-    <ais-instant-search :search-client="client" :search-function="searchFunction" index-name="drinks" class="w-full">
-      <ais-configure :hits-per-page.camel="10" :distinct="true" :analytics="false" :enable-personalization.camel="true" />
-      <div class="sticky top-0 px-5 py-2 bg-base-100 z-50 border-b-[0.5px]">
-        <div class="navbar">
-          <div>
-            <button @click="back" class="btn btn-ghost">
-              <font-awesome-icon icon="fa-solid fa-arrow-left" />
-            </button>
-          </div>
-          <div class="dropdown">
-            <label tabindex="0" class="btn btn-ghost">
-              <font-awesome-icon icon="fa-solid fa-bars" />
-            </label>
-            <div tabindex="0" class="mt-3 p-2 menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
-              <ais-clear-refinements
-                operator="or" show-more :limit="5" :show-more-limit="15" attribute="ingredients" :class-names="{
-                'ais-RefinementList-labelText': 'text-white mx-2'
-              }" />
-            </div>
-          </div>
-          <ais-search-box class="flex-grow">
-            <template v-slot="{ currentRefinement, isSearchStalled, refine }">
-              <div class="form-control w-full">
-                <input type="text" :value="currentRefinement" @input="refine($event.currentTarget.value)" placeholder="Search" class="input input-bordered text-white" autofocus />
-              </div>
-            </template>
-          </ais-search-box>
-          <ais-voice-search class="ml-5">
-            <template v-slot="{toggleListening, isListening}">
-              <button @click="toggleListening">
-                <font-awesome-icon v-if="!isListening" icon="fa-microphone" class="hover:scale-125"/>
-                <font-awesome-icon icon="fa-solid fa-stop" v-else class="hover:scale-125"/>
-              </button>
-            </template>
-          </ais-voice-search>
+  <div>
+    <div class="sticky top-0 px-5 py-2 bg-base-100 z-50 border-b-[0.5px]">
+      <div class="navbar">
+        <div>
+          <button @click="back" class="btn btn-ghost">
+            <font-awesome-icon icon="fa-solid fa-arrow-left" />
+          </button>
         </div>
-        <ais-stats :class-names="{ 'ais-Stats-text': 'text-white', }"/>
-      </div>
-      <ais-hits>
-        <template v-slot="{ items }">
-          <div class="mb-5">
-            <ListCocktail :cocktails="items"/>
+        <div class="dropdown">
+          <label tabindex="0" class="btn btn-ghost">
+            <font-awesome-icon icon="fa-solid fa-bars" />
+          </label>
+          <div tabindex="0" class="mt-3 p-2 menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
           </div>
-        </template>
-      </ais-hits>
-      <ais-pagination>
-        <template v-slot="{ currentRefinement, nbPages, pages, isFirstPage, isLastPage, refine }">
-          <footer class="footer footer-center">
-            <div :class="`btn-group grid grid-flow-col grid-cols-${pages.length + 2} gap-0 mb-5`" v-if="nbPages > 1">
-              <button class="btn" :class="{'btn-disabled': isFirstPage}" @click="refine(0)">
-                <font-awesome-icon icon="fa-solid fa-backward" />
-              </button>
-              <button class="btn" :class="{'btn-active': page === currentRefinement}" @click="refine(page)" v-for="page in pages" :key="page">
-                {{ page + 1 }}
-              </button>
-              <button class="btn" :class="{'btn-disabled': isLastPage}" @click.prevent="refine(nbPages)">
-                <font-awesome-icon icon="fa-solid fa-forward" />
-              </button>
-            </div>
-          </footer>
-        </template>
-      </ais-pagination>
-    </ais-instant-search>
+        </div>
+        <div class="flex-grow">
+          <div class="form-control w-full">
+            <input type="text" :value="currentQuery" @input="newQuery($event.currentTarget.value)" placeholder="Search" class="input input-bordered text-white" autofocus />
+          </div>
+        </div>
+      </div>
+      <div>Stats</div>
+    </div>
+    <div class="mb-5">
+      <ListCocktail :cocktails="items"/>
+    </div>
+    <footer class="footer footer-center">
+      <div :class="`btn-group grid grid-flow-col grid-cols-${pages.length + 2} gap-0 mb-5`" v-if="numberOfPages > 1">
+        <button class="btn" :class="{'btn-disabled': currentPage === 0}" @click="goToPage(0)">
+          <font-awesome-icon icon="fa-solid fa-backward" />
+        </button>
+        <button class="btn" :class="{'btn-active': page === currentPage}" @click="goToPage(page)" v-for="page in pages" :key="page">
+          {{ page + 1 }}
+        </button>
+        <button class="btn" :class="{'btn-disabled': currentPage === numberOfPages - 1}" @click="goToPage(numberOfPages)">
+          <font-awesome-icon icon="fa-solid fa-forward" />
+        </button>
+      </div>
+    </footer>
+  </div>
 </template>
 
-<script>
-export default {
-    data() {
-      return {
-        searchFunction(helper) {
-          console.log('Foo')
-
-          helper.search()
-        },
-      }
-    },
-    methods: {
-        back(event) {
-            const router = useRouter()
-            router.back()
-        }
-    }
-}
-</script>
-
 <script setup>
-import {
-  AisInstantSearch,
-  AisHits,
-  AisSearchBox,
-  AisRefinementList,
-  AisPagination,
-  AisClearRefinements,
-  AisStats,
-  AisVoiceSearch,
-  AisConfigure
-} from 'vue-instantsearch/vue3/es'
 import { useStore } from '~/stores/state'
+
+import { range } from '~~/util/util'
 
 import ListCocktail from '~~/components/list-cocktail.vue'
 
-const client = useMeilisearchClient()
 const store = useStore()
 
+const {data: allItems} = await useFetch('/api/drinks')
+const {data: allIngredients} = await useFetch('/api/ingredients')
+
 const selected = computed(() => store.selectedIngredients)
+
+const items = ref(allItems.value)
+const ingredients = ref(allIngredients.value.map(ingredient => {
+  return {
+    slug: ingredient.slug,
+    isFiltered: false,
+    isVisible: true
+  }
+}))
+const currentQuery = ref('')
+const numberOfPages = ref(1)
+const currentPage = ref(0)
+
+const pages = computed(() => range(7, currentPage - 3).filter(x => x >= 0 && x < numberOfPages))
+
+
+async function newQuery(query) {
+    currentQuery.value = query
+    await performQuery()
+}
+
+async function goToPage(page) {
+    currentPage.value = page
+    await performQuery()
+}
+
+async function performQuery() {
+    const searchParams = {
+        q: currentQuery.value,
+        page: currentPage.value,
+        maxItems: 50,
+        available: [],
+        useAvailable: false,
+        filtered: ingredients.value.filter(x => x.isFiltered).map(x => x.slug)
+    }
+
+    const searchResult = await $fetch('/api/search', {
+        params: searchParams
+    })
+
+    items.value = searchResult.drinks
+    ingredients.value = allIngredients.value.map((ingredient, index) => {
+        return {
+            slug: ingredient.slug,
+            isFiltered: ingredients.value[index].isFiltered,
+            isVisible: searchResult.containedIngredients.find(e => e.ingredient.slug === ingredient.slug) !== undefined
+        }
+    })
+    numberOfPages.value = searchResult.numberOfPages
+}
+
+
+function back(event) {
+    const router = useRouter()
+    router.back()
+}
 </script>
