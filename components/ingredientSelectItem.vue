@@ -14,19 +14,13 @@
 </template>
 
 <script setup>
+import { useStore } from '~/stores/state'
 const { name, slug } = defineProps(['name', 'slug'])
+const store = useStore()
 
-function loadState() {
-    return localStorage.getItem(`ing-${slug}-select`) === 'true'
-}
-function saveState(v) {
-    localStorage.setItem(`ing-${slug}-select`, v)
-}
-
-let selected = ref(loadState())
+const selected = computed(() => store.isIngredientSelected(slug))
 
 function toggle() {
-    selected.value = !selected.value
-    saveState(selected.value)
+    store.toggleIngredientSelected(slug)
 }
 </script>
