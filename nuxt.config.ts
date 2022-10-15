@@ -12,7 +12,9 @@ export default defineNuxtConfig({
           href: 'https://fonts.googleapis.com/css2?family=Fira+Sans',
           rel: 'stylesheet'
         }
-      ]
+      ],
+      title: 'Cocktail Coach',
+      meta: [{ 'charset': 'utf-8' }]
     }
   },
   css: [
