@@ -6,15 +6,17 @@
         <div class="hero-content text-center text-neutral-content">
             <div class="max-w-md">
                 <h1 class="mb-2 text-7xl font-bold">{{ cocktail.name }}</h1>
-                <div class="mr-1 badge">{{ cocktail.category.name }}</div>
-                <div class="badge badge-error" v-if="cocktail.alcoholic">Alcoholic</div>
-                <div class="badge badge-success" v-else>Non-Alcoholic</div>
-                <div class="divider"></div>
+                <div class="mr-1 badge select-none">{{ cocktail.category.name }}</div>
+                <div class="badge badge-error select-none" v-if="cocktail.alcoholic">Alcoholic</div>
+                <div class="badge badge-success select-none" v-else>Non-Alcoholic</div>
+                <div class="divider before:bg-white/50 after:bg-white/50"></div>
                 <h2 class="mb-2 text-2xl font-bold">Ingredients</h2>
-                <div class="flex flex-wrap space-x-4 justify-center">
-                    <div v-for="ingredient in cocktail.ingredients">{{ ingredient.name }}</div>
+                <div class="flex flex-wrap space-x-6 justify-center">
+                    <template v-for="(ingredient, index) in cocktail.ingredients">
+                        <div>{{ ingredient.name }}</div>
+                    </template>
                 </div>
-                <div class="divider"></div>
+                <div class="divider before:bg-white/50 after:bg-white/50"></div>
                 <h2 class="mb-2 text-2xl font-bold">Instructions</h2>
                 <p>{{ cocktail.instructions[0].text }}</p>
             </div>
