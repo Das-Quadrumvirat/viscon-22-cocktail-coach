@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
     sort: ["slug:asc"]
   }
   if (query.limit) queryOpts.limit = parseInt(query.limit.toString())
-  if (query.offst) queryOpts.offset = parseInt(query.limit.toString())
+  if (query.offset) queryOpts.offset = parseInt(query.offset.toString())
   const res = await client.index('ingredients').search('', queryOpts)
   let ingredients: Ingredient[] = []
   for (let hit of res.hits) {
@@ -21,7 +21,6 @@ export default defineEventHandler(async (event) => {
       alcohol: hit.alcohol,
       ABV: hit.ABV,
     }
-    console.log(ing)
     ingredients.push(ing)
   }
   return ingredients
