@@ -3,12 +3,12 @@ import { client } from "../../utils/db/main"
 
 export type CategoryDrinkResponse = {
     id: number,
-    name: string, 
+    name: string,
 }
 
 export type IbaDrinkResponse = {
     id: number,
-    name: string, 
+    name: string,
 }
 
 export type GlassDrinkResponse = {
