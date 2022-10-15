@@ -1,10 +1,11 @@
 import { client } from "../utils/db/main"
 import { SearchParams } from 'meilisearch';
-import { Drink } from "~~/util/types";
+import { Drink, Ingredient, SearchResult } from "~~/util/types";
 import { drinkFromHit } from "../utils/drink_from_hit";
 
 
-export default defineEventHandler(async (event): Promise<Drink[]> => {
+export default defineEventHandler(async (event): Promise<SearchResult> => {
+  // input: q: String, page: Number, maxItems: Number
   const query = getQuery(event)
   const queryOpts: SearchParams = {
     sort: ["slug:asc"]
