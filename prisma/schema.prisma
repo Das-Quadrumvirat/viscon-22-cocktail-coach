@@ -16,8 +16,8 @@ model Drink {
   tags             Tag[]
   category         Category?      @relation(fields: [categoryId], references: [id])
   categoryId       Int
-  iba              IBA            @relation(fields: [iBAId], references: [id])
-  iBAId            Int
+  iba              IBA?            @relation(fields: [iBAId], references: [id])
+  iBAId            Int?
   alcoholic        Boolean
   glass            Glass          @relation(fields: [glassId], references: [id])
   glassId          Int
@@ -50,8 +50,8 @@ model Glass {
 model Ingredient {
   id          Int     @id @default(autoincrement())
   name        String @unique
-  description String
-  type        String
+  description String?
+  type        String?
   alcohol     Boolean
   ABV         Int
   drinks      Drink[]
@@ -72,7 +72,7 @@ enum Lang {
 }
 
 model Instructions {
-  id      Int    @id
+  id      Int    @id @default(autoincrement())
   lang    Lang
   text    String
   Drink   Drink? @relation(fields: [drinkId], references: [id])

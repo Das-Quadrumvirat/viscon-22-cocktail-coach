@@ -1,1 +1,13 @@
-{'Other/Unknown', 'Soft Drink', 'Beer', 'Punch / Party Drink', 'Cocktail', 'Homemade Liqueur', 'Cocoa', 'Shot', 'Coffee / Tea', 'Shake', 'Ordinary Drink'}
+[
+  "Other/Unknown",
+  "Ordinary Drink",
+  "Shot",
+  "Punch / Party Drink",
+  "Homemade Liqueur",
+  "Beer",
+  "Soft Drink",
+  "Coffee / Tea",
+  "Cocktail",
+  "Cocoa",
+  "Shake"
+]
