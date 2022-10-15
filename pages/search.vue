@@ -1,23 +1,28 @@
 <template>
-    <ais-instant-search :search-client="client" index-name="drinks" class="w-full">
+    <ais-instant-search :search-client="client" :search-function="searchFunction" index-name="drinks" class="w-full">
       <ais-configure :hits-per-page.camel="10" :distinct="true" :analytics="false" :enable-personalization.camel="true" />
-      <div class="sticky top-0 px-5 py-2 mb-2 bg-base-100 z-50">
+      <div class="sticky top-0 px-5 py-2 bg-base-100 z-50 border-b-[0.5px]">
         <div class="navbar">
+          <div>
+            <button @click="back" class="btn btn-ghost">
+              <font-awesome-icon icon="fa-solid fa-arrow-left" />
+            </button>
+          </div>
           <div class="dropdown">
             <label tabindex="0" class="btn btn-ghost">
               <font-awesome-icon icon="fa-solid fa-bars" />
             </label>
             <div tabindex="0" class="mt-3 p-2 menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
-              <ais-clear-refinements/>
-              <ais-refinement-list operator="and" show-more :limit="5" :show-more-limit="15" attribute="ingredients" :class-names="{
+              <ais-clear-refinements
+                operator="or" show-more :limit="5" :show-more-limit="15" attribute="ingredients" :class-names="{
                 'ais-RefinementList-labelText': 'text-white mx-2'
-              }"/>
+              }" />
             </div>
           </div>
           <ais-search-box class="flex-grow">
             <template v-slot="{ currentRefinement, isSearchStalled, refine }">
               <div class="form-control w-full">
-                <input type="text" :value="currentRefinement" @input="refine($event.currentTarget.value)" placeholder="Search" class="input input-bordered text-white" />
+                <input type="text" :value="currentRefinement" @input="refine($event.currentTarget.value)" placeholder="Search" class="input input-bordered text-white" autofocus />
               </div>
             </template>
           </ais-search-box>
@@ -59,6 +64,26 @@
     </ais-instant-search>
 </template>
 
+<script>
+export default {
+    data() {
+      return {
+        searchFunction(helper) {
+          console.log('Foo')
+
+          helper.search()
+        },
+      }
+    },
+    methods: {
+        back(event) {
+            const router = useRouter()
+            router.back()
+        }
+    }
+}
+</script>
+
 <script setup>
 import {
   AisInstantSearch,
@@ -71,7 +96,12 @@ import {
   AisVoiceSearch,
   AisConfigure
 } from 'vue-instantsearch/vue3/es'
+import { useStore } from '~/stores/state'
+
 import ListCocktail from '~~/components/list-cocktail.vue'
 
 const client = useMeilisearchClient()
+const store = useStore()
+
+const selected = computed(() => store.selectedIngredients)
 </script>
