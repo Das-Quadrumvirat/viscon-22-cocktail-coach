@@ -1,6 +1,6 @@
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/tailwindcss', 'nuxt-meilisearch'],
+  modules: ['@nuxtjs/tailwindcss', 'nuxt-meilisearch', '@pinia/nuxt'],
   typescript: {
     shim: false
   },
