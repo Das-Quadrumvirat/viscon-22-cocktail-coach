@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 import json
 import re
+from slugify import slugify
 
 def strfmt(s):
     if not s:
@@ -17,13 +18,13 @@ def main():
     for i, x in enumerate(data_raw):
         instrs = [{ 'type': "instructions", 'language': l or 'en', 'content': strfmt(x[f"strInstructions{l.upper()}"])} for l in ['', 'de', 'fr', 'es', 'it']]
         instrs = [a for a in instrs if a['content']]
-        ings = [a for a in [x[f"strIngredient{n}"] for n in range(1,16)] if a]
+        ings = [slugify(a) for a in [x[f"strIngredient{n}"] for n in range(1,16)] if a]
         msrs = [a.strip() for a in [x[f"strMeasure{n}"] for n in range(1,16)] if a]
 
         data_new.append({
-                            'type': 'drink',
-                            'id': i,
+                            'id': i+1,
                             'name': x['strDrink'],
+                            'slug': slugify(x['strDrink']),
                             'tags': (x['strTags'] or "").split(','),
                             'category': x['strCategory'],
                             'iba': x['strIBA'],
