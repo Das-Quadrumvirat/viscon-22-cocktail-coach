@@ -11,7 +11,7 @@
         </div>
 
         <NuxtLink :to="`/cocktail/${cocktail.slug}`" v-if="cocktail">
-            <Cocktail :cocktail="cocktail" v-if="cocktail" />
+            <Cocktail :cocktail="cocktail" />
         </NuxtLink>
     </div>
 </template>
@@ -23,7 +23,7 @@ import Cocktail from '~~/components/cocktail.vue';
 export default {
     data() {
         return {
-            cocktail: null
+            cocktail: null,
         }
     },
     methods: {
