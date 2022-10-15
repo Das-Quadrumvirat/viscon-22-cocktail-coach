@@ -1,8 +1,6 @@
 <template>
     <div>
-        <template v-for="cocktail in cocktails">
-            <ListCocktail :cocktail="cocktail" />
-        </template>
+        <ListCocktail :cocktails="cocktails"/>
     </div>
 </template>
 
@@ -16,3 +14,4 @@
         }
     })
 </script>
+
