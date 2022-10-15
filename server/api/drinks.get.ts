@@ -1,6 +1,6 @@
 import { client } from "../utils/db/main"
-import { DrinkResponse } from "./drink/[slug].get"
 import { SearchParams } from 'meilisearch';
+import { Drink } from "~~/util/types";
 
 
 export default defineEventHandler(async (event) => {
@@ -11,11 +11,12 @@ export default defineEventHandler(async (event) => {
   if (query.limit) queryOpts.limit = parseInt(query.limit.toString())
   if (query.offst) queryOpts.offset = parseInt(query.limit.toString())
   const res = await client.index('drinks').search('', queryOpts)
-  let drinks: DrinkResponse[] = []
+  let drinks: Drink[] = []
   for (let hit of res.hits) {
-    const drink: DrinkResponse = {
+    const drink: Drink = {
       id: hit.id,
       name: hit.name,
+      slug: hit.slug,
       tags: hit.tags,
       category: hit.category,
       iba: hit.iba,

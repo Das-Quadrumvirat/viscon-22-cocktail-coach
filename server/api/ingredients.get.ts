@@ -1,6 +1,6 @@
 import { SearchParams } from "meilisearch"
+import { Ingredient } from "~~/util/types"
 import { client } from "../utils/db/main"
-import { IngredientResponse } from "./ingredient/[slug].get"
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
@@ -10,11 +10,12 @@ export default defineEventHandler(async (event) => {
   if (query.limit) queryOpts.limit = parseInt(query.limit.toString())
   if (query.offst) queryOpts.offset = parseInt(query.limit.toString())
   const res = await client.index('ingredients').search('', queryOpts)
-  let ingredients: IngredientResponse[] = []
+  let ingredients: Ingredient[] = []
   for (let hit of res.hits) {
-    const ing: IngredientResponse = {
+    const ing: Ingredient = {
       id: hit.id,
       name: hit.name,
+      slug: hit.slug,
       description: hit.description,
       ingredientType: hit.ingredientResponse,
       alcohol: hit.alcohol,
