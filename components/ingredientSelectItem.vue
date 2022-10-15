@@ -6,9 +6,9 @@
     >
         <div class="place-content-center items-center card-body">
             <h2 class="text-center text-xl md:text-3xl card-title">{{ name }}</h2>
-            <nuxt-link @click.stop class="bg-black bg-opacity-40 mt-4 p-2 rounded-lg" :to="'/ingredient/' + slug">
+            <a @click.stop class="bg-black bg-opacity-40 mt-4 p-2 rounded-lg" :href="'/ingredient/' + slug">
                 <font-awesome-icon class="text-2xl" icon="fa-share-from-square" />
-            </nuxt-link>
+            </a>
         </div>
     </div>
 </template>
