@@ -13,6 +13,7 @@
     "prisma": "^4.4.0"
   },
   "dependencies": {
+    "@peculiar/webcrypto": "^1.4.0",
     "@prisma/client": "^4.4.0",
     "daisyui": "^2.31.0",
     "meilisearch": "^0.28.0",
