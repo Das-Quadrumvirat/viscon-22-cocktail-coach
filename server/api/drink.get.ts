@@ -11,8 +11,9 @@ export default defineEventHandler(async () => {
             glass: true,
             instructions: true,
             ingredients: true
-        }
+        },
+        take: 50
     })
-    
+
     return drinks
 })
