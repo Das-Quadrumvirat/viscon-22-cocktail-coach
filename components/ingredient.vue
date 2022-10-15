@@ -7,7 +7,7 @@
          </div>
      </div>
   <div class="w-full justify-evenly h-full items-start flex-wrap md:flex-nowrap flex my-6 p-10 flex-row">
-    <div class="flex mb-10 ml-5 flex-col text-justify">
+    <div class="flex mb-10 mx-5 flex-col text-justify">
       <h2 class="text-4xl mx-auto">{{ing.name}}</h2>
       <div class="mt-5 mb-8 mx-auto">
         <div class="badge badge-error select-none" v-if="ing.alcohol">Alcoholic: {{ing.ABV}}%</div>
