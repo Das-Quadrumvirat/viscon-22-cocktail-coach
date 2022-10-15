@@ -1,6 +1,7 @@
 import { Lang } from "@prisma/client"
 import { client } from "../../utils/db/main"
 
+
 export type CategoryDrinkResponse = {
     id: number,
     name: string,
