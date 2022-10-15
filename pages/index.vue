@@ -1,50 +1,57 @@
 <template>
     <div class="mb-5">
-        <div class="navbar bg-base-100 mb-5 px-5">
+        <div class="sticky top-0 navbar bg-base-100 mb-5 px-8 z-50">
             <div class="flex-1">
-                <a href="#" class="btn btn-ghost normal-case text-xl">Cocktail Coach</a>
+                <a href="#" class="btn btn-ghost normal-case text-white mt-5 text-4xl">Cocktail Coach</a>
             </div>
             <div class="flex-none">
                 <div class="form-control">
-                    <input type="text" placeholder="Search Cocktail" class="input input-bordered" @focus="search">
+                    <input type="text" placeholder="Search Cocktail" class="input input-bordered text-white" @focus="search">
                 </div>
             </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-4">
-            <NuxtLink :to="`/cocktail/${recommendations.month.slug}`" class="card w-full bg-base-100 shadow-xl image-full">
-                <figure><img :src="recommendations.month.drinkThumb" :alt="recommendations.month.name" /></figure>
-                <div class="card-body">
-                    <h2 class="card-title">Cocktail of the Month</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 lg:gap-12 mx-8">
+            <a :href="`/cocktail/${recommendations.month.slug}`" class="card w-full shadow-xl group transition-[background-size] bg-center bg-[length:100%_auto] hover:bg-[length:105%_auto]" :style="{
+                'background-image': 'url(' + recommendations.month.drinkThumb + ')'
+            }">
+                <div class="absolute w-full h-full bg-black transition-[background-opacity] bg-opacity-50 group-hover:bg-opacity-70 z-10"></div>
+                <div class="card-body z-20">
+                    <h2 class="card-title text-white">Cocktail of the Month</h2>
                     <p>{{ recommendations.month.name }}</p>
                 </div>
-            </NuxtLink>
-            <NuxtLink :to="`/cocktail/${recommendations.week.slug}`" class="card w-full bg-base-100 shadow-xl image-full">
-                <figure><img :src="recommendations.week.drinkThumb" :alt="recommendations.week.name" /></figure>
-                <div class="card-body">
-                    <h2 class="card-title">Cocktail of the Week</h2>
+            </a>
+            <a :href="`/cocktail/${recommendations.week.slug}`" class="card w-full shadow-xl group transition-[background-size] bg-center bg-[length:100%_auto] hover:bg-[length:105%_auto]" :style="{
+                'background-image': 'url(' + recommendations.week.drinkThumb + ')'
+            }">
+                <div class="absolute w-full h-full bg-black transition-[background-opacity] bg-opacity-50 group-hover:bg-opacity-70 z-10"></div>
+                <div class="card-body z-20">
+                    <h2 class="card-title text-white">Cocktail of the Week</h2>
                     <p>{{ recommendations.week.name }}</p>
                 </div>
-            </NuxtLink>
-            <NuxtLink :to="`/cocktail/${recommendations.day.slug}`" class="card w-full bg-base-100 shadow-xl image-full">
-                <figure><img :src="recommendations.day.drinkThumb" :alt="recommendations.day.name" /></figure>
-                <div class="card-body">
-                    <h2 class="card-title">Cocktail of the Day</h2>
+            </a>
+            <a :href="`/cocktail/${recommendations.day.slug}`" class="card w-full shadow-xl group transition-[background-size] bg-center bg-[length:100%_auto] hover:bg-[length:105%_auto]" :style="{
+                'background-image': 'url(' + recommendations.day.drinkThumb + ')'
+            }">
+                <div class="absolute w-full h-full bg-black transition-[background-opacity] bg-opacity-50 group-hover:bg-opacity-70 z-10"></div>
+                <div class="card-body z-20">
+                    <h2 class="card-title text-white">Cocktail of the Day</h2>
                     <p>{{ recommendations.day.name }}</p>
                 </div>
-            </NuxtLink>
-            <div class="card w-full bg-base-100 shadow-xl image-full">
-                <figure><img :src="random.drinkThumb" :alt="random.name" /></figure>
-                <div class="card-body">
-                    <h2 class="card-title">Get a Random Cocktail!</h2>
-                    <div class="card-actions justify-end">
-                        <NuxtLink to="/cocktail/random" class="btn btn-primary">Go</NuxtLink>
-                    </div>
+            </a>
+            <a href="/cocktail/random" class="card w-full shadow-xl group transition-[background-size] bg-center bg-[length:100%_auto] hover:bg-[length:105%_auto]" :style="{
+                'background-image': 'url(' + random.drinkThumb + ')'
+            }">
+                <div class="absolute w-full h-full bg-black transition-[background-opacity] bg-opacity-50 group-hover:bg-opacity-70 z-10"></div>
+                <div class="card-body z-20">
+                    <h2 class="card-title text-white">Get a Random Cocktail!</h2>
                 </div>
-            </div>
+            </a>
         </div>
+      <div class="my-12">
+      <ListCocktail :cocktails="cocktails"/>
+      </div>
     </div>
 </template>
-
 <script>
 export default {
     methods: {
@@ -60,4 +67,10 @@ export default {
 <script setup>
     const {data: recommendations} = await useFetch('/api/drink/recommendation/all')
     const {data: random} = await useFetch('/api/drink/random')
+    const {data: cocktails} = await useFetch('/api/drinks', {
+        params: {
+            offset: 17,
+            limit: 50,
+        }
+    })
 </script>
