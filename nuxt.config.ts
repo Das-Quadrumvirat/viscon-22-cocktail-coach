@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   typescript: {
     shim: false
   },
+  components: true,
   app: {
     head: {
       link: [
