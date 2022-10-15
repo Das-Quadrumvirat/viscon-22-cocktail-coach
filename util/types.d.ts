@@ -26,3 +26,11 @@ export type Drink = {
     imageAttribution: String | null,
     imageSource: String | null,
 }
+
+export type SearchResult = {
+    drinks: Drink[],
+    containedIngredients: {
+    ingredient: Ingredient,
+    number: Number,
+  }[],
+}
