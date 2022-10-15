@@ -24,11 +24,9 @@
     </div>
 </template>
 
-<script setup>
-    const route = useRoute()
-    const {data: cocktail} = await useFetch(`/api/drink/${route.params.id}`)
-
-    if (!cocktail.value) {
-        throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
+<script>
+    export default {
+        name: "cocktail",
+        props: ["cocktail"]
     }
 </script>

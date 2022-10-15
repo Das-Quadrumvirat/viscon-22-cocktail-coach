@@ -3,7 +3,7 @@ import { SearchParams } from 'meilisearch';
 import { Drink } from "~~/util/types";
 
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event): Promise<Drink[]> => {
   const query = getQuery(event)
   const queryOpts: SearchParams = {
     sort: ["slug:asc"]
@@ -11,9 +11,8 @@ export default defineEventHandler(async (event) => {
   if (query.limit) queryOpts.limit = parseInt(query.limit.toString())
   if (query.offst) queryOpts.offset = parseInt(query.limit.toString())
   const res = await client.index('drinks').search('', queryOpts)
-  let drinks: Drink[] = []
-  for (let hit of res.hits) {
-    const drink: Drink = {
+  return res.hits.map(hit => {
+    return {
       id: hit.id,
       name: hit.name,
       slug: hit.slug,
@@ -29,8 +28,6 @@ export default defineEventHandler(async (event) => {
       imageAttribution: hit.imageAttribution,
       imageSource: hit.imageSource
     }
-    drinks.push(drink)
-  }
-  return drinks
+  })
 })
 
