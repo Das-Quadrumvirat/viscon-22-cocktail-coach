@@ -84,11 +84,30 @@ model User {
   username       String       @unique
   password_hash  Bytes
   made_cocktails MeiliDrink[]
+  Rating         Rating[]
 }
 
 model MeiliDrink {
-  id            Int    @id @default(autoincrement())
-  name          String @unique
-  slug          String @unique
+  id            Int      @id @default(autoincrement())
+  name          String   @unique
+  slug          String   @unique
   made_by_users User[]
+  Rating        Rating[]
+}
+
+enum RatingValue {
+  One
+  Two
+  Three
+  Four
+  Five
+}
+
+model Rating {
+  id           Int         @id @default(autoincrement())
+  value        RatingValue
+  user         User        @relation(fields: [userId], references: [id])
+  userId       Int
+  drink        MeiliDrink  @relation(fields: [meiliDrinkId], references: [id])
+  meiliDrinkId Int
 }
