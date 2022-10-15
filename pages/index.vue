@@ -1,6 +1,6 @@
 <template>
     <div class="mb-5">
-        <div class="sticky top-0 navbar bg-base-100 mb-5 px-8 z-50">
+        <div class="sticky top-0 navbar bg-base-100 mb-8 border-b-[0.5px] px-8 z-50">
             <div class="flex-1">
                 <a href="#" class="btn btn-ghost normal-case text-white mt-5 text-4xl">Cocktail Coach</a>
             </div>
@@ -43,7 +43,7 @@
             }">
                 <div class="absolute w-full h-full bg-black transition-[background-opacity] bg-opacity-50 group-hover:bg-opacity-70 z-10"></div>
                 <div class="card-body z-20">
-                    <h2 class="card-title text-white">Get a Random Cocktail!</h2>
+                    <h2 class="card-title py-3 text-white">Get a Random Cocktail!</h2>
                 </div>
             </a>
         </div>
