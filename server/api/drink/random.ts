@@ -1,12 +1,13 @@
 import { randomInt } from "crypto"
 import { client } from "~~/server/utils/db/main"
+import { drinkFromHit } from "~~/server/utils/drink_from_hit"
 
 export default defineEventHandler(async (event) => {
     const query = getQuery(event)
     const query_tags = query.tags as string | undefined
     const tags = query_tags === undefined ? undefined : query_tags.split(",")
     const tags_filter = tags === undefined ? '' : `(${tags.map((t) => `tags = ${t}`).join(' OR ')})`
-   
+
     const query_category = query.category as string | undefined
     const category_filter = query_category === undefined ? '' : `category = "${query_category}"`
 
@@ -15,7 +16,7 @@ export default defineEventHandler(async (event) => {
 
     const query_alcoholic = query.alcoholic as string | undefined
     const alcoholic_filter = query_alcoholic === undefined ? '' : `alcoholic = ${query_alcoholic}`
-    
+
     const query_glass = query.glass as string | undefined
     const glass_filter = query_glass === undefined ? '' : `glass = "${query_glass}"`
 
@@ -34,5 +35,5 @@ export default defineEventHandler(async (event) => {
     })
     const hits = result.hits
     const hit_idx = randomInt(hits.length)
-    return hits[hit_idx]
+    return await drinkFromHit(hits[hit_idx])
 })
