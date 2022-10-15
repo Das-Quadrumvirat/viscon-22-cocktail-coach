@@ -1,7 +1,7 @@
 <template>
     <ais-instant-search :search-client="client" index-name="drinks" class="w-full">
       <ais-configure :hits-per-page.camel="10" :distinct="true" :analytics="false" :enable-personalization.camel="true" />
-      <div class="sticky top-0 px-5 pb-2 mb-2 bg-base-100 z-50">
+      <div class="sticky top-0 px-5 py-2 mb-2 bg-base-100 z-50">
         <div class="navbar">
           <div class="dropdown">
             <label tabindex="0" class="btn btn-ghost">
