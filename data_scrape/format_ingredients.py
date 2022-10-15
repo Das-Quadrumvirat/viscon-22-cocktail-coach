@@ -27,7 +27,7 @@ def main():
                         })
         last = i+1
 
-    last =+ 1
+    last += 1
 
     data_new.append({
                     'id': last,
