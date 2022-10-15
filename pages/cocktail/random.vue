@@ -10,9 +10,7 @@
             </div>
         </div>
 
-        <NuxtLink :to="`/cocktail/${cocktail.slug}`" v-if="cocktail">
-            <Cocktail :cocktail="cocktail" />
-        </NuxtLink>
+            <Cocktail :cocktail="cocktail" v-if="cocktail" />
     </div>
 </template>
 

@@ -19,14 +19,59 @@
                 <div class="divider before:bg-white/50 after:bg-white/50"></div>
                 <h2 class="mb-2 text-2xl font-bold">Instructions</h2>
                 <p>{{ cocktail.instructions[0].text }}</p>
+                <button class="btn" @click="madeCocktail" v-if="!made_cocktail">Made!</button>
+                <button class="btn btn-disabled" aria-disabled="true" v-if="made_cocktail">Made!</button>
             </div>
         </div>
     </div>
 </template>
 
-<script>
-    export default {
-        name: "cocktail",
-        props: ["cocktail"]
+<script setup lang="ts">
+import { Drink } from '~~/util/types';
+
+
+const props = defineProps<{
+    cocktail: Drink
+}>()
+
+let cocktail = computed(() => props.cocktail)
+
+let made_cocktail = ref(false)
+
+async function fetchIfMade() {
+    made_cocktail.value = false
+    try {
+        const { data, error } = await useFetch("/api/user/drink/made")
+        if (error === undefined) {
+            throw error
+        }
+        if (data.value.find((e) => e.slug === props.cocktail.slug)) {
+            made_cocktail.value = true
+        }
+    } catch (error) {
+        if (error instanceof Error) console.error(error)
+        made_cocktail.value = false
     }
+}
+
+await fetchIfMade()
+
+watch(cocktail, async (o, n) => {
+    console.log("call update")
+    await fetchIfMade()
+})
+
+console.log(made_cocktail)
+
+async function madeCocktail() {
+    const now_i_made = await $fetch(`/api/user/drink/${props.cocktail.slug}/made`)
+    console.log(now_i_made)
+    made_cocktail.value = true
+}
+</script>
+
+<script lang="ts">
+export default {
+    name: "cocktail",
+}
 </script>
