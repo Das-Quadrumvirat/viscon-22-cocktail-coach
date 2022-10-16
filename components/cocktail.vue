@@ -22,6 +22,8 @@
                 <div class="divider before:bg-white/50 after:bg-white/50"></div>
                 <h2 class="mb-2 text-2xl font-bold">Instructions</h2>
                 <p>{{ cocktail.instructions[0].content }}</p>
+                <div class="btn btn-wide btn-primary mt-8" @click="madeCocktail" v-if="!made_cocktail">Made!</div>
+                <div class="btn btn-wide btn-disabled mt-8" v-if="made_cocktail">Made!</div>
             </div>
         </div>
     </div>
@@ -37,17 +39,15 @@ const props = defineProps<{
 
 let cocktail = computed(() => props.cocktail)
 
-let made_cocktail = ref(false)
+let made_cocktail = ref(true)
 
 async function fetchIfMade() {
-    made_cocktail.value = false
     try {
-        const { data, error } = await useFetch("/api/user/drink/made")
-        if (error === undefined) {
-            throw error
-        }
-        if (data.value.find((e) => e.slug === props.cocktail.slug)) {
+        const values = await $fetch("/api/user/drink/made")
+        if (values.find((e) => e.slug === props.cocktail.slug)) {
             made_cocktail.value = true
+        } else {
+            made_cocktail.value = false
         }
     } catch (error) {
         if (error instanceof Error) console.error(error)
@@ -55,18 +55,17 @@ async function fetchIfMade() {
     }
 }
 
-await fetchIfMade()
-
-watch(cocktail, async (o, n) => {
-    console.log("call update")
+onMounted(async () => {
     await fetchIfMade()
 })
 
-console.log(made_cocktail)
+watch(cocktail, async (o, n) => {
+    await fetchIfMade()
+})
+
 
 async function madeCocktail() {
     const now_i_made = await $fetch(`/api/user/drink/${props.cocktail.slug}/made`)
-    console.log(now_i_made)
     made_cocktail.value = true
 }
 </script>

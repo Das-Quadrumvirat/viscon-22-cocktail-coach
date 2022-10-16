@@ -73,6 +73,36 @@
                     <p>&nbsp;</p>
                 </div>
             </a>
+            <a
+                href="/user/login"
+                class="card w-full shadow-xl group transition-[background-size] bg-center bg-[length:100%_auto] hover:bg-[length:105%_auto]"
+                v-if="!loggedIn"
+            >
+                <div
+                    class="absolute w-full h-full bg-secondary bg-transition-[background-opacity] bg-opacity-50 group-hover:bg-opacity-70 z-10"
+                ></div>
+                <div class="card-body z-20">
+                    <h2 class="card-title py-3 text-white md:text-3xl">
+                       Login 
+                    </h2>
+                    <p>&nbsp;</p>
+                </div>
+            </a>
+            <a
+                href="/user/register"
+                class="card w-full shadow-xl group transition-[background-size] bg-center bg-[length:100%_auto] hover:bg-[length:105%_auto]"
+                v-if="!loggedIn"
+            >
+                <div
+                    class="absolute w-full h-full bg-secondary bg-transition-[background-opacity] bg-opacity-50 group-hover:bg-opacity-70 z-10"
+                ></div>
+                <div class="card-body z-20">
+                    <h2 class="card-title py-3 text-white md:text-3xl">
+                        Register
+                    </h2>
+                    <p>&nbsp;</p>
+                </div>
+            </a>
         </div>
         <div class="my-12">
             <ListCocktail :cocktails="cocktails" />
@@ -81,6 +111,10 @@
 </template>
 
 <script setup>
+
+const loggedIn = useCookie("user_id")
+
+
 const { data: recommendations } = await useFetch(
     '/api/drink/recommendation/all'
 )

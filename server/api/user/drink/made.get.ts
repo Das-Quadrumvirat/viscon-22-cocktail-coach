@@ -1,8 +1,9 @@
 import { sql_client } from "~~/server/utils/db/main"
 
 export default defineEventHandler(async (event) => { 
+    console.log(getCookie(event, 'user_id'))
     const user_id = parseInt(getCookie(event, "user_id"))
-    if (user_id === undefined) {
+    if (!user_id) {
         await sendRedirect(event, "/user/login")
         return
     }
