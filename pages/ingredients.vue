@@ -21,8 +21,8 @@
         <h2 class="text-center mb-2 text-2xl">
             Select the ingredients you have available
         </h2>
-        <p class="text-center">
-            They will be persisted in your local browser storage
+        <p class="text-center text-md">
+            Don't worry about saving them, we are taking care of that
         </p>
         <div class="container mx-auto max-w-6xl">
             <ais-instant-search
