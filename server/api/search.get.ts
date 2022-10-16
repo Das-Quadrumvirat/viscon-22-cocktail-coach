@@ -41,8 +41,6 @@ export default defineEventHandler(async (event): Promise<SearchResult> => {
     limit: 1000
   }
 
-  console.log(queryOpts)
-
   const res: SearchResponse = await client.index('drinks').search(q, queryOpts)
   const hits = useAvailable ? res.hits.filter(a => {
     let b = a.ingredients.length

@@ -11,11 +11,12 @@
           <label tabindex="0" class="btn btn-ghost">
             <font-awesome-icon icon="fa-solid fa-sliders" />
           </label>
-          <ul tabindex="0" class="mt-3 p-2 menu menu-compact dropdown-content bg-base-100 rounded-box w-[32rem]">
+          <ul tabindex="0" class="mt-3 p-2 menu menu-compact dropdown-content bg-base-100 rounded-box w-64">
             <li class="flex flex-row items-center">
               <input type="checkbox" id="use-available-toggle" class="toggle" v-model="useAvailable" @change="performQuery()" />
-              <label for="use-available-toggle">Only show drinks with most ingredients available</label>
+              <label for="use-available-toggle">Consider my ingredients</label>
             </li>
+            <li class="relative right-0 left-0 border-b-1"></li>
             <li
               class="flex flex-row items-center"
               v-for="[i, ingredient] in filters"
@@ -34,7 +35,7 @@
         </div>
         <NuxtLink
             to="/ingredients"
-            class="btn btn-ghost normal-case text-xl"
+            class="btn btn-ghost normal-case text-xl hidden md:inline-flex"
         >
             My Ingredients
         </NuxtLink>
