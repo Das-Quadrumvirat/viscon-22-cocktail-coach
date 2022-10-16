@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="sticky top-0 px-5 py-2 bg-base-100 z-50 border-b-[0.5px]">
-      <div class="navbar">
+      <div class="navbar gap-1 md:gap-2">
         <div>
           <button @click="back" class="btn btn-ghost">
             <font-awesome-icon icon="fa-solid fa-arrow-left" />
@@ -12,15 +12,25 @@
             <font-awesome-icon icon="fa-solid fa-bars" />
           </label>
           <div tabindex="0" class="mt-3 p-2 menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
+
           </div>
         </div>
         <div class="flex-grow">
           <div class="form-control w-full">
-            <input type="text" :value="currentQuery" @input="newQuery($event.currentTarget.value)" placeholder="Search" class="input input-bordered text-white" autofocus />
+            <input type="text" :value="currentQuery" @input="newQuery($event.currentTarget.value)" placeholder="Search" class="input input-bordered text-white focus:outline-none" autofocus />
           </div>
         </div>
+        <NuxtLink
+            to="/ingredients"
+            class="btn btn-ghost normal-case text-xl"
+        >
+            My Ingredients
+        </NuxtLink>
       </div>
-      <div>Found {{ numberOfHits }} Page{{ numberOfHits === 1 ? '' : 's' }}{{ requestTime ? ` in ${requestTime / 1000}s` : '' }}</div>
+      <div>
+        Found {{ numberOfHits }} Drink{{ numberOfHits === 1 ? '' : 's' }}{{ requestTime ? ` in ${(requestTime / 1000).toPrecision(3)}s` : '' }}
+        {{ actuallyUseAvailable ? ' that are mostly made out of ingredients from your fridge' : '' }}
+      </div>
     </div>
     <div class="mb-5">
       <ListCocktail :cocktails="items"/>
@@ -50,13 +60,13 @@ import ListCocktail from '~~/components/list-cocktail.vue'
 
 const store = useStore()
 
-const {data: allItems} = await useFetch('/api/drinks')
-const {data: allIngredients} = await useFetch('/api/ingredients')
+const allItems = await $fetch('/api/drinks')
+const allIngredients = await $fetch('/api/ingredients')
 
 const selected = computed(() => store.selectedIngredients)
 
-const items = ref(allItems.value)
-const ingredients = ref(allIngredients.value.map(ingredient => {
+const items = ref(allItems.slice(0, 50))
+const ingredients = ref(allIngredients.map(ingredient => {
   return {
     slug: ingredient.slug,
     isFiltered: false,
@@ -64,16 +74,35 @@ const ingredients = ref(allIngredients.value.map(ingredient => {
   }
 }))
 const currentQuery = ref('')
-const numberOfPages = ref(1)
+const numberOfPages = ref(Math.ceil(allItems.length / 50))
 const currentPage = ref(0)
-const numberOfHits = ref(allItems.value.length)
+const numberOfHits = ref(allItems.length)
 const requestTime = ref(0)
+const requestCounter = ref(0)
+const useAvailable = ref(true)
 
-const pages = computed(() => range(7, currentPage - 3).filter(x => x >= 0 && x < numberOfPages))
+const actuallyUseAvailable = computed(() => useAvailable.value && selected.value.length > 0)
+
+const pages = computed(() => {
+  const pagesBefore = currentPage.value
+  const pagesAfter = numberOfPages.value - currentPage.value - 1
+  if (pagesBefore >= 3 && pagesAfter >= 3) {
+    return range(7, currentPage.value - 3)
+  } else if (numberOfPages.value <= 7) {
+    return range(numberOfPages.value)
+  } else if (pagesBefore < 3) {
+    return range(7)
+  } else {
+    return range(7, numberOfPages.value - 7)
+  }
+})
+
+await performQuery()
 
 
 async function newQuery(query) {
     currentQuery.value = query
+    currentPage.value = 0
     await performQuery()
 }
 
@@ -87,10 +116,12 @@ async function performQuery() {
         q: currentQuery.value,
         page: currentPage.value,
         maxItems: 50,
-        available: [],
-        useAvailable: false,
+        available: selected.value,
+        useAvailable: actuallyUseAvailable.value,
         filtered: ingredients.value.filter(x => x.isFiltered).map(x => x.slug)
     }
+
+    const counterValue = ++requestCounter.value
 
     const start = performance.now()
     const searchResult = await $fetch('/api/search', {
@@ -98,17 +129,23 @@ async function performQuery() {
     })
     const end = performance.now()
 
-    items.value = searchResult.drinks
-    ingredients.value = allIngredients.value.map((ingredient, index) => {
-        return {
-            slug: ingredient.slug,
-            isFiltered: ingredients.value[index].isFiltered,
-            isVisible: searchResult.containedIngredients.find(e => e.ingredient.slug === ingredient.slug) !== undefined
-        }
-    })
-    numberOfPages.value = searchResult.numberOfPages
-    numberOfHits.value = searchResult.numberOfHits
-    requestTime.value = end - start
+    if (requestCounter.value === counterValue) {
+      items.value = searchResult.drinks
+      ingredients.value = allIngredients.map((ingredient, index) => {
+          return {
+              slug: ingredient.slug,
+              isFiltered: ingredients.value[index].isFiltered,
+              isVisible: searchResult.containedIngredients.find(e => e.ingredient.slug === ingredient.slug) !== undefined
+          }
+      })
+      numberOfPages.value = searchResult.numberOfPages
+      numberOfHits.value = searchResult.numberOfHits
+      requestTime.value = end - start
+
+      if (process.browser){
+          window.scrollTo(0,0)
+      }
+    }
 }
 
 function back(event) {

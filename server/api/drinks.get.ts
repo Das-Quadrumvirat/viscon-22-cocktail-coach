@@ -1,7 +1,7 @@
 import { client } from "../utils/db/main"
 import { SearchParams } from 'meilisearch';
 import { Drink } from "~~/util/types";
-import { drinkFromHit } from "../utils/drink_from_hit";
+import { drinksFromHits } from "../utils/drink_from_hit";
 
 
 export default defineEventHandler(async (event): Promise<Drink[]> => {
@@ -9,8 +9,10 @@ export default defineEventHandler(async (event): Promise<Drink[]> => {
   const queryOpts: SearchParams = {
     sort: ["slug:asc"]
   }
-  if (query.limit) queryOpts.limit = parseInt(query.limit.toString())
+
+  queryOpts.limit = query.limit ? parseInt(query.limit.toString()) : 1000
   if (query.offset) queryOpts.offset = parseInt(query.offset.toString())
   const res = await client.index('drinks').search('', queryOpts)
-  return Promise.all(res.hits.map(drinkFromHit))
+  const foo = await drinksFromHits(res.hits)
+  return foo
 })

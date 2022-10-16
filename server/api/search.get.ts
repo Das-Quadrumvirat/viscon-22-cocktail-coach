@@ -89,7 +89,7 @@ export default defineEventHandler(async (event): Promise<SearchResult> => {
     })
   }
 
-  let drinkArr = await Promise.all(hits.slice(offset, limit).map(async (hit) => {
+  let drinkArr = await Promise.all(hits.slice(offset, offset + limit).map(async (hit) => {
     const ingrList: { ingredient: Ingredient, measure: String }[] = []
     const lengthIngs = hit.ingredients.length
     for (let i = 0; i < lengthIngs; i++) {
