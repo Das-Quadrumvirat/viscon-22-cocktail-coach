@@ -11,10 +11,10 @@
           <label tabindex="0" class="btn btn-ghost">
             <font-awesome-icon icon="fa-solid fa-sliders" />
           </label>
-          <ul tabindex="0" class="mt-3 p-2 menu menu-compact dropdown-content bg-base-100 rounded-box w-64">
+          <ul tabindex="0" class="mt-3 p-2 menu menu-compact dropdown-content bg-base-100 rounded-box w-60 md:w-68">
             <li class="flex flex-row items-center">
               <input type="checkbox" id="use-available-toggle" class="toggle" v-model="useAvailable" @change="performQuery()" />
-              <label for="use-available-toggle">Consider my ingredients</label>
+              <label for="use-available-toggle" class="text-xs md:text-sm">Consider my ingredients</label>
             </li>
             <li class="relative right-0 left-0 border-b-1"></li>
             <li
@@ -23,7 +23,7 @@
               :key="ingredient.slug"
             >
               <input type="checkbox" :id="`${ingredient.slug}-toggle`" class="checkbox" v-model="ingredients[i].isFiltered" @change="performQuery()" />
-              <label :for="`${ingredient.slug}-toggle`">{{ allIngredients[i].name }}</label>
+              <label :for="`${ingredient.slug}-toggle`" class="text-xs md:text-sm">{{ allIngredients[i].name }}</label>
               <div class="badge badge-outline">{{ ingredient.count }}</div>
             </li>
           </ul>
@@ -52,13 +52,13 @@
     </div>
     <footer class="footer footer-center">
       <div :class="`btn-group grid grid-flow-col grid-cols-${pages.length + 2} gap-0 mb-5`" v-if="numberOfPages > 1">
-        <button class="btn" :class="{'btn-disabled': currentPage === 0}" @click="goToPage(0)">
+        <button class="btn text-xs md:text-base px-2.5 md:px-3" :class="{'btn-disabled': currentPage === 0}" @click="goToPage(0)">
           <font-awesome-icon icon="fa-solid fa-backward" />
         </button>
-        <button class="btn" :class="{'btn-active': page === currentPage}" @click="goToPage(page)" v-for="page in pages" :key="page">
+        <button class="btn text-xs md:text-base px-2.5 md:px-3" :class="{'btn-active': page === currentPage}" @click="goToPage(page)" v-for="page in pages" :key="page">
           {{ page + 1 }}
         </button>
-        <button class="btn" :class="{'btn-disabled': currentPage === numberOfPages - 1}" @click="goToPage(numberOfPages - 1)">
+        <button class="btn text-xs md:text-base px-2.5 md:px-3" :class="{'btn-disabled': currentPage === numberOfPages - 1}" @click="goToPage(numberOfPages - 1)">
           <font-awesome-icon icon="fa-solid fa-forward" />
         </button>
       </div>
