@@ -9,10 +9,32 @@
             <h1 class="text-4xl m-5">Cocktail App</h1>
             <h2 class="text-2xl ml-2 mt-3 mb-3">Overengineered with ❤️ by:</h2>
             <ul class="list-inside ml-2 list-disc text-xl">
-                <li><a href="https://github.com/tectrixer" class="link link-hover">Constantin</a></li>
-                <li><a href="https://github.com/Zollerboy1" class="link link-hover">Josef</a></li>
-                <li><a href="https://github.com/vypxl" class="link link-hover">Thomas</a></li>
-                <li><a href="https://github.com/umgefahren" class="link link-hover">Hannes</a></li>
+                <li>
+                    <a
+                        href="https://github.com/tectrixer"
+                        class="link link-hover"
+                        >Constantin</a
+                    >
+                </li>
+                <li>
+                    <a
+                        href="https://github.com/Zollerboy1"
+                        class="link link-hover"
+                        >Josef</a
+                    >
+                </li>
+                <li>
+                    <a href="https://github.com/vypxl" class="link link-hover"
+                        >Thomas</a
+                    >
+                </li>
+                <li>
+                    <a
+                        href="https://github.com/umgefahren"
+                        class="link link-hover"
+                        >Hannes</a
+                    >
+                </li>
             </ul>
         </div>
         <div class="shadow bg-slate-700 mt-5 mb-5 p-5 rounded-md">
@@ -83,21 +105,32 @@
                 </div>
                 <div class="stat">
                     <div class="stat-title">Current Load</div>
-                    <div class="stat-value">{{ floorPrecised(load.currentLoad, 2) }}%</div>
+                    <div class="stat-value">
+                        {{ floorPrecised(load.currentLoad, 2) }}%
+                    </div>
                 </div>
             </div>
             <div class="shadow mt-5 mb-5 p-5 bg-slate-900 rounded-xl">
-                <div class="radial-progress" :style="`--value:${cpu}`" v-for="cpu in load.cpus">{{ floorPrecised(cpu,
-                2)}}%</div>
+                <div
+                    class="radial-progress"
+                    :style="`--value:${cpu}`"
+                    v-for="cpu in load.cpus"
+                >
+                    {{ floorPrecised(cpu, 2) }}%
+                </div>
             </div>
         </div>
         <div class="shadow bg-slate-700 mt-5 mb-5 p-5 rounded-md">
             <h1 class="text-3xl m-5">Memory</h1>
             <div class="stat">
                 <div class="stat-title">Total Memory</div>
-                <div class="stat-value">{{ floorPrecised(memory.total / 1e+9, 2) }} GB</div>
+                <div class="stat-value">
+                    {{ floorPrecised(memory.total / 1e9, 2) }} GB
+                </div>
                 <div class="stat-title">Used Memory</div>
-                <div class="stat-value">{{ floorPrecised(memory.used / 1e+9, 2) }} GB</div>
+                <div class="stat-value">
+                    {{ floorPrecised(memory.used / 1e9, 2) }} GB
+                </div>
             </div>
         </div>
         <div class="shadow bg-slate-700 mt-5 mb-5 p-5 rounded-md">
@@ -128,25 +161,18 @@
 
 <script setup lang="ts">
 function floorPrecised(number: number, precision: number): number {
-    var power = Math.pow(10, precision);
+    var power = Math.pow(10, precision)
 
-    return Math.floor(number * power) / power;
+    return Math.floor(number * power) / power
 }
 
-const { data: { value } } = await useFetch("/api/info")
-
+const {
+    data: { value },
+} = await useFetch('/api/info')
 
 const { time, os, load, memory, cpu } = value
 
-</script>
-
-<script lang="ts">
-export default {
-    methods: {
-        back(event) {
-            const router = useRouter()
-            router.back()
-        }
-    }
+function back(event) {
+    document.location.pathname = '/'
 }
 </script>

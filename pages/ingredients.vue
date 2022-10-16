@@ -1,15 +1,20 @@
 <template>
-    <div class="sticky top-0 navbar bg-base-100 mb-8 border-b-[0.5px] px-8 py-4 z-50">
+    <div
+        class="sticky top-0 navbar bg-base-100 mb-8 border-b-[0.5px] px-8 py-4 z-50"
+    >
         <div class="flex-grow">
             <button @click="back" class="btn btn-ghost">
                 <font-awesome-icon icon="fa-solid fa-arrow-left" />
             </button>
-            <h1 class="text-2xl ml-2">
-                Ingredients
-            </h1>
+            <h1 class="text-2xl ml-2">Ingredients</h1>
         </div>
         <div class="form-control">
-            <input type="text" placeholder="Search Cocktail" class="input input-bordered text-white" @focus="search">
+            <input
+                type="text"
+                placeholder="Search Cocktail"
+                class="input input-bordered text-white"
+                @focus="search"
+            />
         </div>
     </div>
     <div class="container mx-auto px-4">
@@ -68,22 +73,6 @@
     </div>
 </template>
 
-<script>
-export default {
-    methods: {
-        back(event) {
-            const router = useRouter()
-            router.back()
-        },
-        search(event) {
-            console.log('Foo')
-            const router = useRouter();
-            router.push('/search')
-        }
-    }
-}
-</script>
-
 <script setup>
 import {
     AisInstantSearch,
@@ -98,4 +87,12 @@ const store = useStore()
 const client = useMeilisearchClient()
 
 const selected = computed(() => store.selectedIngredients)
+
+function search(event) {
+    document.location.pathname = '/search'
+}
+
+function back(event) {
+    document.location.pathname = '/'
+}
 </script>
