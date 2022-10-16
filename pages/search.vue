@@ -41,23 +41,6 @@
   </div>
 </template>
 
-<<<<<<< HEAD
-=======
-<script>
-export default {
-    data() {
-      return {
-        searchFunction(helper) {
-          console.log('Foo')
-
-          helper.search()
-        },
-      }
-    }
-}
-</script>
-
->>>>>>> cfa5916b83ebf1b42f3899bd8f520ef4491a04ab
 <script setup>
 import { useStore } from '~/stores/state'
 
