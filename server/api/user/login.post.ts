@@ -14,9 +14,10 @@ export default defineEventHandler(async (event) => {
     const utf8Encode = new TextEncoder()
     const password_data = utf8Encode.encode(body.password)
     const password_hash = await crypto.subtle.digest('SHA-256', password_data)
+    let found_user;
 
     try {
-        const found_user = await sql_client.user.findUniqueOrThrow({
+        found_user = await sql_client.user.findUniqueOrThrow({
             where: {
                 username: body.username
             }
