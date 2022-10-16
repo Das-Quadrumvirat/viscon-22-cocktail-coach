@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
   const queryOpts: SearchParams = {
     sort: ["slug:asc"]
   }
-  if (query.limit) queryOpts.limit = parseInt(query.limit.toString())
+  queryOpts.limit = query.limit ? parseInt(query.limit.toString()) : 1000
   if (query.offset) queryOpts.offset = parseInt(query.offset.toString())
   const res = await client.index('ingredients').search('', queryOpts)
   let ingredients: Ingredient[] = []

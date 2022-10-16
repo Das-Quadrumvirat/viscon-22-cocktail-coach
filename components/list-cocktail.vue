@@ -1,4 +1,5 @@
 <template>
+  <div>
     <a :href="`/cocktail/${cocktail.slug}`" class="hero group transition-[background-size] bg-[length:100%_auto] hover:bg-[length:105%_auto]" :style="{ 'background-image': 'url(' + cocktail.drinkThumb + ')' }" v-for="cocktail in cocktails" :key="cocktail">
         <div class="hero-overlay transition-[background-opacity] bg-opacity-50 group-hover:bg-opacity-70"></div>
         <div class="hero-content text-neutral-content w-full hidden md:flex">
@@ -22,6 +23,7 @@
             </div>
         </div>
     </a>
+  </div>
 </template>
 
 <script>

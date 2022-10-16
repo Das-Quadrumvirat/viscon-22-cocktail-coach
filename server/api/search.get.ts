@@ -11,12 +11,12 @@ export default defineEventHandler(async (event): Promise<SearchResult> => {
     }
     let arrOfEquals: string[] = []
     for (let filter of filtered) {
-      arrOfEquals.push('(ingredient=' + filter + ')')
+      arrOfEquals.push('(ingredients = ' + filter + ')')
     }
     let res = arrOfEquals.at(0)
 
     for (let i = 1; i < arrOfEquals.length; i++) {
-      res += 'and'
+      res += ' AND '
       res += arrOfEquals.at(i)
     }
     return res
@@ -24,12 +24,13 @@ export default defineEventHandler(async (event): Promise<SearchResult> => {
 
   // input: q: String, page: Number, maxItems: Number, available: String[], filtered: String[]
   const query = getQuery(event)
+
   let q = query.q.toString()
   let page = parseInt(query.page.toString())
   let maxItems = parseInt(query.maxItems.toString())
   let useAvailable = query.useAvailable === 'true'
   let available = query.available as string[] || []
-  let filtered = query.filtered as string[] || []
+  let filtered = query.filtered ? (Array.isArray(query.filtered) ? query.filtered as string[] :  [query.filtered as string]) : []
 
   const limit = maxItems
   const offset = page * maxItems
