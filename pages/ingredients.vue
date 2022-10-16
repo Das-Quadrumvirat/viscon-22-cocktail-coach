@@ -1,8 +1,27 @@
 <template>
+    <div class="sticky top-0 navbar bg-base-100 mb-8 border-b-[0.5px] px-8 py-4 z-50"
+    >
+        <div class="flex-grow">
+            <button @click="back" class="btn btn-ghost">
+                <font-awesome-icon icon="fa-solid fa-house" />
+            </button>
+            <h1 class="text-2xl ml-2">Ingredients</h1>
+        </div>
+        <div class="form-control">
+            <input
+                type="text"
+                placeholder="Search Cocktail"
+                class="input input-bordered text-white"
+                @focus="search"
+            />
+        </div>
+    </div>
     <div class="container mx-auto px-4">
-        <h1 class="text-center text-5xl font-bold my-8">Ingredients</h1>
-        <p class="text-center text-2xl">
+        <h2 class="text-center mb-2 text-2xl">
             Select the ingredients you have available
+        </h2>
+        <p class="text-center text-md">
+            Don't worry about saving them, we are taking care of that
         </p>
         <div class="container mx-auto max-w-6xl">
             <ais-instant-search
@@ -67,4 +86,12 @@ const store = useStore()
 const client = useMeilisearchClient()
 
 const selected = computed(() => store.selectedIngredients)
+
+function search(event) {
+    document.location.pathname = '/search'
+}
+
+function back(event) {
+    document.location.pathname = '/'
+}
 </script>

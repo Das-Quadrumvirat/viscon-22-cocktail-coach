@@ -1,14 +1,17 @@
 <template>
     <div
         @click="toggle"
-        class="card md:w-56 w-32 md:h-56 h-44 bg-primary shadow-xl m-4 text-white hover:scale-110 ease-in duration-[50ms]"
+        class="card md:w-56 w-40 md:h-56 h-44 my-4 md:my-6 bg-primary shadow-xl m-2 md:m-4 text-white hover:scale-110 ease-in duration-[50ms] cursor-pointer"
         :class="{ 'bg-secondary': selected }"
     >
-        <div class="place-content-center items-center card-body">
+        <div class="place-content-center items-center relative card-body">
+      <div class="flex flex-row justify-center">
             <h2 class="text-center text-xl md:text-3xl card-title">{{ name }}</h2>
-            <nuxt-link @click.stop class="bg-black bg-opacity-40 mt-4 p-2 rounded-lg" :to="'/ingredient/' + slug">
-                <font-awesome-icon class="text-2xl" icon="fa-share-from-square" />
-            </nuxt-link>
+            <a @click.stop class="my-auto hover:text-gray-300 absolute top-2 right-2 hover:scale-125 p-2 rounded-lg" :href="'/ingredient/' + slug">
+                <font-awesome-icon class="text-lg md:text-2xl" icon="fa-circle-info" />
+            </a>
+        </div>
+            <img loading="lazy" :src="'https://thecocktaildb.com/images/ingredients/' + encodeURI(name) + '.png'"/>
         </div>
     </div>
 </template>
