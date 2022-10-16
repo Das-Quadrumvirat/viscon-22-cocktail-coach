@@ -65,18 +65,11 @@ import ListCocktail from '~~/components/list-cocktail.vue'
 
 const store = useStore()
 
-const allIngredients = await $fetch('/api/ingredients')
-
 const selected = computed(() => store.selectedIngredients)
 
+const allIngredients = ref([])
 const items = ref([])
-const ingredients = ref(allIngredients.map(ingredient => {
-  return {
-    slug: ingredient.slug,
-    isFiltered: false,
-    isVisible: true
-  }
-}))
+const ingredients = ref([])
 const currentQuery = ref('')
 const numberOfPages = ref(0)
 const currentPage = ref(0)
@@ -100,8 +93,6 @@ const pages = computed(() => {
     return range(7, numberOfPages.value - 7)
   }
 })
-
-await performQuery()
 
 
 async function newQuery(query) {
@@ -135,7 +126,7 @@ async function performQuery() {
 
     if (requestCounter.value === counterValue) {
       items.value = searchResult.drinks
-      ingredients.value = allIngredients.map((ingredient, index) => {
+      ingredients.value = allIngredients.value.map((ingredient, index) => {
           return {
               slug: ingredient.slug,
               isFiltered: ingredients.value[index].isFiltered,
@@ -146,13 +137,28 @@ async function performQuery() {
       numberOfHits.value = searchResult.numberOfHits
       requestTime.value = end - start
 
-      if (typeof process === 'undefined'){
-          window.scrollTo(0,0)
-      }
+      try {
+        scrollTo(0,0)
+      } catch {}
     }
 }
 
 function back(event) {
     document.location.pathname = '/'
 }
+
+
+onMounted(async () => {
+  allIngredients.value = await $fetch('/api/ingredients')
+
+  ingredients.value = allIngredients.value.map(ingredient => {
+    return {
+      slug: ingredient.slug,
+      isFiltered: false,
+      isVisible: true
+    }
+  })
+
+  performQuery()
+});
 </script>
