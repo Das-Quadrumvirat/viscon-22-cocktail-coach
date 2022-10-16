@@ -7,6 +7,7 @@ export default defineNuxtConfig({
   components: true,
   app: {
     head: {
+      htmlAttrs: [{ 'data-theme': 'dracula' }],
       link: [
         {
           href: 'https://fonts.googleapis.com/css2?family=Fira+Sans',

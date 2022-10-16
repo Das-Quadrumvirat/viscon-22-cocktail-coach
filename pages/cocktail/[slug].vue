@@ -9,20 +9,13 @@
     </div>
 </template>
 
-<script>
-export default {
-    methods: {
-        back(event) {
-            const router = useRouter()
-            router.back()
-        }
-    }
-}
-</script>
-
 <script setup>
     import Cocktail from '~~/components/cocktail.vue'
 
     const route = useRoute()
     const {data: cocktail} = await useFetch(`/api/drink/${route.params.slug}`)
+
+    function back() {
+        document.location.pathname = '/'
+    }
 </script>
