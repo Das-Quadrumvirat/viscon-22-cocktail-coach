@@ -5,13 +5,31 @@ import { drinkFromHit } from "../utils/drink_from_hit";
 
 
 export default defineEventHandler(async (event): Promise<SearchResult> => {
+  function build_filter(filtered: string[]): string {
+    if (filtered.length === 0) {
+      return ""
+    }
+    let arrOfEquals: string[] = []
+    for (let filter of filtered) {
+      arrOfEquals.push('(ingredient=' + filter + ')')
+    }
+    let res = arrOfEquals.at(0)
+
+    for (let i = 1; i < arrOfEquals.length; i++) {
+      res += 'and'
+      res += arrOfEquals.at(i)
+    }
+    return res
+  }
+
   // input: q: String, page: Number, maxItems: Number, available: String[], filtered: String[]
   const query = getQuery(event)
   let q = query.q.toString()
   let page = parseInt(query.page.toString())
   let maxItems = parseInt(query.maxItems.toString())
-  let available = query.available as string[]
-  let filtered = query.filtered as string[]
+  let useAvailable = query.useAvailable === 'true'
+  let available = query.available as string[] || []
+  let filtered = query.filtered as string[] || []
 
   const limit = maxItems
   const offset = page * maxItems
@@ -19,12 +37,11 @@ export default defineEventHandler(async (event): Promise<SearchResult> => {
   const queryOpts: SearchParams = {
     sort: ["slug:asc"],
     filter: build_filter(filtered),
-    limit: limit,
-    offset: offset,
+    limit:1000
   }
 
   const res: SearchResponse = await client.index('drinks').search(q, queryOpts)
-  res.hits = res.hits.filter(a => {
+  const hits = useAvailable ? res.hits.filter(a => {
     let b = a.ingredients.length
     for (let ing of a.ingredients) {
       if (available.includes(ing)) {
@@ -33,10 +50,10 @@ export default defineEventHandler(async (event): Promise<SearchResult> => {
     }
     return b <= 1
   }
-  )
+  ) : res.hits.map(e => e)
 
   let ingrArr: Map<string, number> = new Map()
-  for (let hit of res.hits) {
+  for (let hit of hits) {
     for (let ingr of hit.ingredients) {
       const entry = ingrArr.get(ingr)
       if (entry) {
@@ -46,9 +63,10 @@ export default defineEventHandler(async (event): Promise<SearchResult> => {
       }
     }
   }
+
   let ingrResult: {
     ingredient: Ingredient,
-    number: Number,
+    number: number,
   }[] = []
   for (let [slug, num] of ingrArr.entries()) {
     const res = (await client.index('ingredients').search('', { filter: 'slug = ' + slug, limit: 1 })).hits.at(0)
@@ -67,28 +85,12 @@ export default defineEventHandler(async (event): Promise<SearchResult> => {
     })
   }
 
-  let drinkArr = await Promise.all(res.hits.map(drinkFromHit))
-  let numPages: number = (res.hits.length / (maxItems + 1)) >> 0
+  let drinkArr = await Promise.all(hits.slice(offset, limit).map(drinkFromHit))
+  let numPages: number = (hits.length / (maxItems + 1)) >> 0
   return {
     containedIngredients: ingrResult,
     drinks: drinkArr,
     numberOfPages: numPages + 1,
+    numberOfHits: hits.length
   }
 })
-
-function build_filter(filtered: string[]): string {
-  if (!filtered) {
-    return ""
-  }
-  let arrOfEquals: string[] = []
-  for (let filter of filtered) {
-    arrOfEquals.push('(ingredient=' + filter + ')')
-  }
-  let res = arrOfEquals.at(0)
-
-  for (let i = 1; i < arrOfEquals.length; i++) {
-    res += 'and'
-    res += arrOfEquals.at(i)
-  }
-  return res
-}
