@@ -20,7 +20,7 @@
           </div>
         </div>
       </div>
-      <div>Stats</div>
+      <div>Found {{ numberOfHits }} Page{{ numberOfHits === 1 ? '' : 's' }}{{ requestTime ? ` in ${requestTime / 1000}s` : '' }}</div>
     </div>
     <div class="mb-5">
       <ListCocktail :cocktails="items"/>
@@ -66,6 +66,8 @@ const ingredients = ref(allIngredients.value.map(ingredient => {
 const currentQuery = ref('')
 const numberOfPages = ref(1)
 const currentPage = ref(0)
+const numberOfHits = ref(allItems.value.length)
+const requestTime = ref(0)
 
 const pages = computed(() => range(7, currentPage - 3).filter(x => x >= 0 && x < numberOfPages))
 
@@ -90,9 +92,11 @@ async function performQuery() {
         filtered: ingredients.value.filter(x => x.isFiltered).map(x => x.slug)
     }
 
+    const start = performance.now()
     const searchResult = await $fetch('/api/search', {
         params: searchParams
     })
+    const end = performance.now()
 
     items.value = searchResult.drinks
     ingredients.value = allIngredients.value.map((ingredient, index) => {
@@ -103,6 +107,8 @@ async function performQuery() {
         }
     })
     numberOfPages.value = searchResult.numberOfPages
+    numberOfHits.value = searchResult.numberOfHits
+    requestTime.value = end - start
 }
 
 function back(event) {

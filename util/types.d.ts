@@ -31,7 +31,8 @@ export type SearchResult = {
   drinks: Drink[],
   containedIngredients: {
     ingredient: Ingredient,
-    number: Number,
+    number: number,
   }[],
-  numberOfPages: Number,
+  numberOfPages: number,
+  numberOfHits: number
 }

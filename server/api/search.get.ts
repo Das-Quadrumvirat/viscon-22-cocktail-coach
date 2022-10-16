@@ -66,7 +66,7 @@ export default defineEventHandler(async (event): Promise<SearchResult> => {
 
   let ingrResult: {
     ingredient: Ingredient,
-    number: Number,
+    number: number,
   }[] = []
   for (let [slug, num] of ingrArr.entries()) {
     const res = (await client.index('ingredients').search('', { filter: 'slug = ' + slug, limit: 1 })).hits.at(0)
@@ -91,5 +91,6 @@ export default defineEventHandler(async (event): Promise<SearchResult> => {
     containedIngredients: ingrResult,
     drinks: drinkArr,
     numberOfPages: numPages + 1,
+    numberOfHits: hits.length
   }
 })
