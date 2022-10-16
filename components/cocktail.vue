@@ -22,8 +22,8 @@
                 <div class="divider before:bg-white/50 after:bg-white/50"></div>
                 <h2 class="mb-2 text-2xl font-bold">Instructions</h2>
                 <p>{{ cocktail.instructions[0].content }}</p>
-                <div class="btn btn-wide btn-primary mt-8" @click="madeCocktail" v-if="!made_cocktail">Made!</div>
-                <div class="btn btn-wide btn-disabled mt-8" v-if="made_cocktail">Made!</div>
+                <div class="btn btn-wide btn-primary mt-8" @click="madeCocktail" v-if="!made_cocktail && loggedIn">Made!</div>
+                <div class="btn btn-wide btn-disabled mt-8" v-if="made_cocktail && loggedIn">Made!</div>
             </div>
         </div>
     </div>
@@ -32,6 +32,7 @@
 <script setup lang="ts">
 import { Drink } from '~~/util/types';
 
+const loggedIn = useCookie('user_id')
 
 const props = defineProps<{
     cocktail: Drink
