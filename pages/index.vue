@@ -23,7 +23,7 @@
                     <input
                         type="text"
                         placeholder="Search Cocktail"
-                        class="input input-bordered text-white"
+                        class="input input-bordered text-white focus:outline-none"
                         @focus="search"
                     />
                 </div>
