@@ -18,7 +18,8 @@
             </li>
             <li
               class="flex flex-row items-center"
-              v-for="[i, ingredient] in ingredients.map((e, i) => [i, e]).filter(([_, e]) => e.isVisible).sort(([_, a], [_b, b]) => a.count < b.count).slice(0, 10)"
+              v-for="[i, ingredient] in filters"
+              :key="ingredient.slug"
             >
               <input type="checkbox" :id="`${ingredient.slug}-toggle`" class="checkbox" v-model="ingredients[i].isFiltered" @change="performQuery()" />
               <label :for="`${ingredient.slug}-toggle`">{{ allIngredients[i].name }}</label>
@@ -160,12 +161,20 @@ async function performQuery() {
     }
 }
 
+const filters = computed(() => {
+    let x = ingredients.value.map((e, i) => [i, e]).filter(([_, e]) => e.isVisible)
+    x = x.sort(([_, a], [_b, b]) => {return b.count - a.count})
+    return x.slice(0, 10)
+})
+
 function back(event) {
     document.location.pathname = '/'
 }
 
 
 onMounted(async () => {
+  window.filters = filters
+  window.ingredients = ingredients
   performQuery()
 });
 </script>
