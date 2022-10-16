@@ -9,11 +9,14 @@
         </div>
         <div class="dropdown">
           <label tabindex="0" class="btn btn-ghost">
-            <font-awesome-icon icon="fa-solid fa-bars" />
+            <font-awesome-icon icon="fa-solid fa-sliders" />
           </label>
-          <div tabindex="0" class="mt-3 p-2 menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
-
-          </div>
+          <ul tabindex="0" class="mt-3 p-2 menu menu-compact dropdown-content bg-base-100 rounded-box w-96">
+            <li class="flex flex-row">
+              <input type="checkbox" id="use-available-toggle" class="toggle" v-model="useAvailable" @change="performQuery()" />
+              <label for="use-available-toggle">Only show drinks with most ingredients available</label>
+            </li>
+          </ul>
         </div>
         <div class="flex-grow">
           <div class="form-control w-full">
@@ -27,9 +30,11 @@
             My Ingredients
         </NuxtLink>
       </div>
-      <div>
-        Found {{ numberOfHits }} Drink{{ numberOfHits === 1 ? '' : 's' }}{{ requestTime ? ` in ${(requestTime / 1000).toPrecision(3)}s` : '' }}
-        {{ actuallyUseAvailable ? ' that are mostly made out of ingredients from your fridge' : '' }}
+      <div class="w-full">
+        <p class="ml-2 text-gray-500">
+          Found {{ numberOfHits }} Drink{{ numberOfHits === 1 ? '' : 's' }}{{ requestTime ? ` in ${(requestTime / 1000).toFixed(3)}s` : '' }}
+          {{ actuallyUseAvailable ? ` that ${numberOfHits === 1 ? 'is' : 'are'} mostly made out of ingredients from your fridge` : '' }}
+        </p>
       </div>
     </div>
     <div class="mb-5">
@@ -43,7 +48,7 @@
         <button class="btn" :class="{'btn-active': page === currentPage}" @click="goToPage(page)" v-for="page in pages" :key="page">
           {{ page + 1 }}
         </button>
-        <button class="btn" :class="{'btn-disabled': currentPage === numberOfPages - 1}" @click="goToPage(numberOfPages)">
+        <button class="btn" :class="{'btn-disabled': currentPage === numberOfPages - 1}" @click="goToPage(numberOfPages - 1)">
           <font-awesome-icon icon="fa-solid fa-forward" />
         </button>
       </div>
@@ -60,12 +65,11 @@ import ListCocktail from '~~/components/list-cocktail.vue'
 
 const store = useStore()
 
-const allItems = await $fetch('/api/drinks')
 const allIngredients = await $fetch('/api/ingredients')
 
 const selected = computed(() => store.selectedIngredients)
 
-const items = ref(allItems.slice(0, 50))
+const items = ref([])
 const ingredients = ref(allIngredients.map(ingredient => {
   return {
     slug: ingredient.slug,
@@ -74,9 +78,9 @@ const ingredients = ref(allIngredients.map(ingredient => {
   }
 }))
 const currentQuery = ref('')
-const numberOfPages = ref(Math.ceil(allItems.length / 50))
+const numberOfPages = ref(0)
 const currentPage = ref(0)
-const numberOfHits = ref(allItems.length)
+const numberOfHits = ref(0)
 const requestTime = ref(0)
 const requestCounter = ref(0)
 const useAvailable = ref(true)
