@@ -6,7 +6,7 @@
             >
                 <div class="flex w-20">
                     <button @click="back" class="btn btn-ghost">
-                        <font-awesome-icon icon="fa-solid fa-arrow-left" />
+                        <font-awesome-icon icon="fa-solid fa-house" />
                     </button>
                 </div>
                 <div class="flex flex-grow justify-center">

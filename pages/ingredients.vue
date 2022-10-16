@@ -3,7 +3,7 @@
     >
         <div class="flex-grow">
             <button @click="back" class="btn btn-ghost">
-                <font-awesome-icon icon="fa-solid fa-arrow-left" />
+                <font-awesome-icon icon="fa-solid fa-house" />
             </button>
             <h1 class="text-2xl ml-2">Ingredients</h1>
         </div>
