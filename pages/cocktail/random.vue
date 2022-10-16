@@ -2,10 +2,10 @@
     <div>
         <div>
             <div
-                class="absolute top-0 navbar mb-8 px-8 py-4 z-50 bg-black bg-opacity-40 shadow-xl"
+                class="absolute top-0 navbar mb-8 pl-2 pr-4 md:pl-8 md:pr-8 py-4 z-50 bg-black bg-opacity-40 shadow-xl"
             >
                 <div class="flex w-20">
-                    <button @click="back" class="btn btn-ghost">
+                    <button @click="back" class="btn btn-ghost mr-3">
                         <font-awesome-icon icon="fa-solid fa-house" />
                     </button>
                 </div>
