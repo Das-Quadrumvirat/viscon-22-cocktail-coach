@@ -4,7 +4,7 @@
       <div class="navbar gap-1 md:gap-2">
         <div>
           <button @click="back" class="btn btn-ghost">
-            <font-awesome-icon icon="fa-solid fa-arrow-left" />
+            <font-awesome-icon icon="fa-solid fa-house" />
           </button>
         </div>
         <div class="dropdown">

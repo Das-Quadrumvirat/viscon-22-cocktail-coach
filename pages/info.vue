@@ -3,7 +3,7 @@
         <div class="shadow bg-slate-700 mt-5 mb-5 p-5 rounded-md">
             <div class="navbar">
                 <button @click="back" class="btn btn-ghost">
-                    <font-awesome-icon icon="fa-solid fa-arrow-left" />
+                      <font-awesome-icon icon="fa-solid fa-house" />
                 </button>
             </div>
             <h1 class="text-4xl m-5">Cocktail App</h1>

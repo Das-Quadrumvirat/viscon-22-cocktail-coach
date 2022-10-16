@@ -13,7 +13,7 @@
         </div>
         <div class="hero-content text-neutral-content flex-col flex w-full md:hidden">
             <div class="text-white text-center">
-                <h1 class="text-5xl font-bold mt-8">{{ cocktail.name }}</h1>
+                <h1 class="text-4xl font-bold mt-8">{{ cocktail.name }}</h1>
             </div>
             <div class="w-1/2 text-center mb-8">
                 <div class="mr-1 badge select-none">{{ cocktail.category }}</div>
