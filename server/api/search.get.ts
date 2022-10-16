@@ -37,7 +37,7 @@ export default defineEventHandler(async (event): Promise<SearchResult> => {
   const queryOpts: SearchParams = {
     sort: ["slug:asc"],
     filter: build_filter(filtered),
-    limit:1000
+    limit: 1000
   }
 
   const res: SearchResponse = await client.index('drinks').search(q, queryOpts)
@@ -64,28 +64,56 @@ export default defineEventHandler(async (event): Promise<SearchResult> => {
     }
   }
 
+  let ingredients = (await client.index('ingredients').search('', { limit: 1000 })).hits
+  let ingMap: Map<string, Ingredient> = new Map()
+  for (let ing of ingredients) {
+    ingMap.set(ing.slug, {
+      id: ing.id,
+      slug: ing.slug,
+      name: ing.name,
+      description: ing.description,
+      ingredientType: ing.ingredientType,
+      alcohol: ing.alcohol,
+      ABV: ing.abv,
+    })
+  }
   let ingrResult: {
     ingredient: Ingredient,
     number: number,
   }[] = []
   for (let [slug, num] of ingrArr.entries()) {
-    const res = (await client.index('ingredients').search('', { filter: 'slug = ' + slug, limit: 1 })).hits.at(0)
-    const ing: Ingredient = {
-      id: res.id,
-      slug: res.slug,
-      name: res.name,
-      description: res.description,
-      ingredientType: res.ingredientType,
-      alcohol: res.alcohol,
-      ABV: res.abv,
-    }
+    let res = ingMap.get(slug)
     ingrResult.push({
-      ingredient: ing,
+      ingredient: res,
       number: num,
     })
   }
 
-  let drinkArr = await Promise.all(hits.slice(offset, limit).map(drinkFromHit))
+  let drinkArr = await Promise.all(hits.slice(offset, limit).map(async (hit) => {
+    const ingrList: { ingredient: Ingredient, measure: String }[] = []
+    const lengthIngs = hit.ingredients.length
+    for (let i = 0; i < lengthIngs; i++) {
+      const ingrr = ingMap.get(hit.ingredients.at(i))
+      const meas = hit.measures.at(i)
+      ingrList.push({ ingredient: ingrr, measure: meas })
+    }
+    const drink: Drink = {
+      id: hit.id,
+      slug: hit.slug,
+      name: hit.name,
+      tags: hit.tags,
+      category: hit.category,
+      iba: hit.iba,
+      alcoholic: hit.alcoholic,
+      glass: hit.glass,
+      instructions: hit.instructions,
+      drinkThumb: hit.drinkThumb,
+      ingredients: ingrList,
+      imageAttribution: hit.imageAttribution,
+      imageSource: hit.imageSource,
+    }
+    return drink
+  }))
   let numPages: number = (hits.length / (maxItems + 1)) >> 0
   return {
     containedIngredients: ingrResult,
