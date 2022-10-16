@@ -1,11 +1,11 @@
 <template>
-    <div class="sticky top-0 navbar bg-base-100 mb-8 border-b-[0.5px] px-8 py-4 z-50"
+    <div class="sticky top-0 navbar flex-wrap bg-base-100 mb-8 border-b-[0.5px] px-8 py-4 z-50"
     >
         <div class="flex-grow">
             <button @click="back" class="btn btn-ghost">
                 <font-awesome-icon icon="fa-solid fa-house" />
             </button>
-            <h1 class="text-2xl ml-2">Ingredients</h1>
+            <h1 class="text-2xl mx-2">Ingredients</h1>
         </div>
         <div class="form-control">
             <input
