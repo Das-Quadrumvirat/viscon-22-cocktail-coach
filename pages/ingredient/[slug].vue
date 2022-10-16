@@ -1,7 +1,7 @@
 <template>
     <div class="absolute top-0 navbar mb-8 px-8 py-4 z-50">
         <button @click="back" class="btn btn-ghost">
-            <font-awesome-icon icon="fa-solid fa-arrow-left" />
+            <font-awesome-icon icon="fa-solid fa-house" />
         </button>
     </div>
     <Ingredient :ing="ingredient" />
