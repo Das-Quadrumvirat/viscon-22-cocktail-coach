@@ -15,14 +15,18 @@ export default defineEventHandler(async (event) => {
     const password_data = utf8Encode.encode(body.password)
     const password_hash = await crypto.subtle.digest('SHA-256', password_data)
 
-    const found_user = await sql_client.user.findUniqueOrThrow({
-        where: {
-            username: body.username
-        }
-    })
+    try {
+        const found_user = await sql_client.user.findUniqueOrThrow({
+            where: {
+                username: body.username
+            }
+        })
 
-    if (found_user.password_hash.compare(Buffer.from(password_hash)) != 0) {
-        throw new Error("Password was not correct");
+        if (found_user.password_hash.compare(Buffer.from(password_hash)) != 0) {
+            throw new Error("Password was not correct");
+        }
+    } catch (e) {
+        await sendRedirect(event, "/user/loginerror")
     }
 
     setCookie(event, "user_id", `${found_user.id}`, {
