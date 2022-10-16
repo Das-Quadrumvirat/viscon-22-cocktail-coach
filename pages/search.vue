@@ -11,7 +11,7 @@
           <label tabindex="0" class="btn btn-ghost">
             <font-awesome-icon icon="fa-solid fa-sliders" />
           </label>
-          <ul tabindex="0" class="mt-3 p-2 menu menu-compact dropdown-content bg-base-100 rounded-box w-60 md:w-68">
+          <ul tabindex="0" class="mt-3 p-2 menu menu-compact dropdown-content bg-base-100 rounded-box w-60 md:w-72">
             <li class="flex flex-row items-center">
               <input type="checkbox" id="use-available-toggle" class="toggle" v-model="useAvailable" @change="performQuery()" />
               <label for="use-available-toggle" class="text-xs md:text-sm">Consider my ingredients</label>
