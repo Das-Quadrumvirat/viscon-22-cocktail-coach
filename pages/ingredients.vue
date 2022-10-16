@@ -1,6 +1,5 @@
 <template>
-    <div
-        class="sticky top-0 navbar bg-base-100 mb-8 border-b-[0.5px] px-8 py-4 z-50"
+    <div class="sticky top-0 navbar bg-base-100 mb-8 border-b-[0.5px] px-8 py-4 z-50"
     >
         <div class="flex-grow">
             <button @click="back" class="btn btn-ghost">

@@ -11,7 +11,7 @@
                 <font-awesome-icon class="text-lg md:text-2xl" icon="fa-circle-info" />
             </a>
         </div>
-            <img :src="'https://thecocktaildb.com/images/ingredients/' + encodeURI(name) + '.png'"/>
+            <img loading="lazy" :src="'https://thecocktaildb.com/images/ingredients/' + encodeURI(name) + '.png'"/>
         </div>
     </div>
 </template>

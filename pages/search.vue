@@ -142,7 +142,7 @@ async function performQuery() {
       numberOfHits.value = searchResult.numberOfHits
       requestTime.value = end - start
 
-      if (process.browser){
+      if (typeof process === 'undefined'){
           window.scrollTo(0,0)
       }
     }
