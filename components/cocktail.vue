@@ -22,14 +22,57 @@
                 <div class="divider before:bg-white/50 after:bg-white/50"></div>
                 <h2 class="mb-2 text-2xl font-bold">Instructions</h2>
                 <p>{{ cocktail.instructions[0].content }}</p>
+                <div class="btn btn-wide btn-primary mt-8" @click="madeCocktail" v-if="!made_cocktail && loggedIn">Made!</div>
+                <div class="btn btn-wide btn-disabled mt-8" v-if="made_cocktail && loggedIn">Made!</div>
             </div>
         </div>
     </div>
 </template>
 
-<script>
-    export default {
-        name: "cocktail",
-        props: ["cocktail"]
+<script setup lang="ts">
+import { Drink } from '~~/util/types';
+
+const loggedIn = useCookie('user_id')
+
+const props = defineProps<{
+    cocktail: Drink
+}>()
+
+let cocktail = computed(() => props.cocktail)
+
+let made_cocktail = ref(true)
+
+async function fetchIfMade() {
+    try {
+        const values = await $fetch("/api/user/drink/made")
+        if (values.find((e) => e.slug === props.cocktail.slug)) {
+            made_cocktail.value = true
+        } else {
+            made_cocktail.value = false
+        }
+    } catch (error) {
+        if (error instanceof Error) console.error(error)
+        made_cocktail.value = false
     }
+}
+
+onMounted(async () => {
+    await fetchIfMade()
+})
+
+watch(cocktail, async (o, n) => {
+    await fetchIfMade()
+})
+
+
+async function madeCocktail() {
+    const now_i_made = await $fetch(`/api/user/drink/${props.cocktail.slug}/made`)
+    made_cocktail.value = true
+}
+</script>
+
+<script lang="ts">
+export default {
+    name: "cocktail",
+}
 </script>

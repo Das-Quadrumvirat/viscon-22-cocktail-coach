@@ -16,7 +16,7 @@ model Drink {
   tags             Tag[]
   category         Category?      @relation(fields: [categoryId], references: [id])
   categoryId       Int
-  iba              IBA?            @relation(fields: [iBAId], references: [id])
+  iba              IBA?           @relation(fields: [iBAId], references: [id])
   iBAId            Int?
   alcoholic        Boolean
   glass            Glass          @relation(fields: [glassId], references: [id])
@@ -37,19 +37,19 @@ model Category {
 
 model IBA {
   id    Int     @id @default(autoincrement())
-  name  String @unique
+  name  String  @unique
   Drink Drink[]
 }
 
 model Glass {
   id    Int     @id @default(autoincrement())
-  name  String @unique
+  name  String  @unique
   Drink Drink[]
 }
 
 model Ingredient {
   id          Int     @id @default(autoincrement())
-  name        String @unique
+  name        String  @unique
   description String?
   type        String?
   alcohol     Boolean
@@ -59,7 +59,7 @@ model Ingredient {
 
 model Tag {
   id     Int     @id @default(autoincrement())
-  name   String @unique
+  name   String  @unique
   drinks Drink[]
 }
 
@@ -77,4 +77,37 @@ model Instructions {
   text    String
   Drink   Drink? @relation(fields: [drinkId], references: [id])
   drinkId Int?
+}
+
+model User {
+  id             Int          @id @default(autoincrement())
+  username       String       @unique
+  password_hash  Bytes
+  made_cocktails MeiliDrink[]
+  Rating         Rating[]
+}
+
+model MeiliDrink {
+  id            Int      @id @default(autoincrement())
+  name          String   @unique
+  slug          String   @unique
+  made_by_users User[]
+  Rating        Rating[]
+}
+
+enum RatingValue {
+  One
+  Two
+  Three
+  Four
+  Five
+}
+
+model Rating {
+  id           Int         @id @default(autoincrement())
+  value        RatingValue
+  user         User        @relation(fields: [userId], references: [id])
+  userId       Int
+  drink        MeiliDrink  @relation(fields: [meiliDrinkId], references: [id])
+  meiliDrinkId Int
 }

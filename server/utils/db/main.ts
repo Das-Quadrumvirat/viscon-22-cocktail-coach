@@ -1,6 +1,6 @@
-// import { PrismaClient } from "@prisma/client"
+import { PrismaClient } from "@prisma/client"
 
-// export const client = new PrismaClient()
+export const sql_client = new PrismaClient()
 import { MeiliSearch} from 'meilisearch'
 const runtimeConfig = useRuntimeConfig()
 
