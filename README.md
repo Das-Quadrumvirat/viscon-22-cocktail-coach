@@ -1,50 +1,31 @@
-- [Ideas](ideas.md)
+# Cocktailcoach
 
-## Generate Prisma client
+A project by Das Quadrumvirat. Initially created during VISCON 2022.
 
-```bash
-pnpm prisma generate
-```
+An app to list, browse and interact with cocktail and drink recipies.
 
-# Nuxt 3 Minimal Starter
+Using data from [The Cocktail DB](https://www.thecocktaildb.com/)
 
-Look at the [nuxt 3 documentation](https://v3.nuxtjs.org) to learn more.
+Available online soon.
 
-## Setup
+## Development
 
-Make sure to install the dependencies:
+You will need `Docker`, `nodejs >= 16` and `pnpm`, `python 3` and the pip packages `python-slugify`, `python-dotenv` installed.
+To fire up a local development environment, follow these steps:
 
-```bash
-# yarn
-yarn install
-
-# npm
-npm install
-
-# pnpm
-pnpm install --shamefully-hoist
-```
-
-## Development Server
-
-Start the development server on http://localhost:3000
+1. Create a `.env` file and set `POSTGRES_PASSWORD` and `MEILIKEY` to some values and set a postgres and meili database url, e. g.
 
 ```bash
-npm run dev
+POSTGRES_PASSWORD=securepw
+DATABASE_URL="postgresql://cocktailcoach:securepw@localhost:5432/db?schema=public"
+MEILIKEY=securekey
+MEILIURL=http://localhost:7700
 ```
 
-## Production
-
-Build the application for production:
-
-```bash
-npm run build
-```
-
-Locally preview production build:
-
-```bash
-npm run preview
-```
-
-Checkout the [deployment documentation](https://v3.nuxtjs.org/guide/deploy/presets) for more information.
+2. Run `docker compose -f docker-compose-dev.yml up -d` to start up the databases
+3. Run `pnpm i --shamefully-hoist` to install the packages
+4. Run `pnpm prisma migrate dev` and `pnpm prisma generate` to generate set up the postgres db
+5. Insert the data into the db. `./data/insert_data.py`
+6. Create a search api key: `curl -X POST "$MEILIURL/keys" -H "Authorization: Bearer $MEILIKEY" -H "Content-Type: application/json" --data-binary '{"actions": ["*"], "indexes": ["*"], "expiresAt": null}'`
+7. Save the generated search key into `.env` as `MEILI_SEARCH_KEY`
+8. Run `pnpm run dev` to start the dev server
