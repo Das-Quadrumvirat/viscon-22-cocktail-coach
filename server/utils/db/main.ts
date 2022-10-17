@@ -5,6 +5,6 @@ import { MeiliSearch} from 'meilisearch'
 const runtimeConfig = useRuntimeConfig()
 
 export const client = new MeiliSearch({
-  host: 'http://cocktailcoach.vypxl.io:7700',
+  host: runtimeConfig.meiliURL,
   apiKey: runtimeConfig.apiSecret,
 })
