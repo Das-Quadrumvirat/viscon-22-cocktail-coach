@@ -1,4 +1,4 @@
-lockfileVersion: 5.4
+lockfileVersion: 5.3
 
 specifiers:
   '@fortawesome/fontawesome-svg-core': ^6.2.0
@@ -22,7 +22,7 @@ specifiers:
 dependencies:
   '@fortawesome/fontawesome-svg-core': 6.2.0
   '@fortawesome/free-solid-svg-icons': 6.2.0
-  '@fortawesome/vue-fontawesome': 3.0.1_2jo7f6j6pn2m7lj4deimyvebc4
+  '@fortawesome/vue-fontawesome': 3.0.1_d25df2f93e7b74cfad3c1910cc548117
   '@peculiar/webcrypto': 1.4.0
   '@pinia/nuxt': 0.4.3
   '@prisma/client': 4.4.0_prisma@4.4.0
@@ -353,7 +353,7 @@ packages:
       mime: 3.0.0
     dev: true
 
-  /@csstools/selector-specificity/2.0.2_dvkg4kkb622mvceygg47xxdz3a:
+  /@csstools/selector-specificity/2.0.2_1d546e2941f6b4ca889831b9fbdc79d8:
     resolution: {integrity: sha512-IkpVW/ehM1hWKln4fCA3NzJU8KwD+kIOvPZA4cqxoJHtE21CCzjyp+Kxbu0i5I4tBNOlXPL9mjwnWlL0VEG4Fg==}
     engines: {node: ^12 || ^14 || >=16}
     peerDependencies:
@@ -404,7 +404,7 @@ packages:
       '@fortawesome/fontawesome-common-types': 6.2.0
     dev: false
 
-  /@fortawesome/vue-fontawesome/3.0.1_2jo7f6j6pn2m7lj4deimyvebc4:
+  /@fortawesome/vue-fontawesome/3.0.1_d25df2f93e7b74cfad3c1910cc548117:
     resolution: {integrity: sha512-CdXZJoCS+aEPec26ZP7hWWU3SaJlQPZSCGdgpQ2qGl2HUmtUUNrI3zC4XWdn1JUmh3t5OuDeRG1qB4eGRNSD4A==}
     peerDependencies:
       '@fortawesome/fontawesome-svg-core': ~1 || ~6
@@ -4244,7 +4244,7 @@ packages:
     peerDependencies:
       postcss: ^8.2
     dependencies:
-      '@csstools/selector-specificity': 2.0.2_dvkg4kkb622mvceygg47xxdz3a
+      '@csstools/selector-specificity': 2.0.2_1d546e2941f6b4ca889831b9fbdc79d8
       postcss: 8.4.18
       postcss-selector-parser: 6.0.10
     dev: true
