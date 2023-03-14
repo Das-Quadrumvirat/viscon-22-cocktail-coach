@@ -1,10 +1,10 @@
 #! /usr/bin/env python
 
-import requests
 import json
 import os
-from dotenv import load_dotenv
 
+import requests
+from dotenv import load_dotenv
 
 SETTINGS_DRINKS = """{
       "filterableAttributes": [
@@ -55,7 +55,9 @@ SETTINGS_INGS = """{
 
 def main():
     load_dotenv()
-    with open(os.path.join(os.path.dirname(__file__), "../data_scrape/formatted_data.json"), "r") as f:
+    with open(
+        os.path.join(os.path.dirname(__file__), "../data/formatted_data.json"), "r"
+    ) as f:
         data = json.load(f)
 
     drinks = data["drinks"]
@@ -64,7 +66,7 @@ def main():
     url = os.environ["MEILIURL"]
     key = os.environ["MEILIKEY"]
 
-    headers = {'Authorization': f"Bearer: {key}"}
+    headers = {"Authorization": f"Bearer: {key}"}
     headers_json = {
         "Authorization": f"Bearer {key}",
         "Content-Type": "application/json",
