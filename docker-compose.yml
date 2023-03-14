@@ -1,7 +1,9 @@
 version: "3"
+networks:
+  app-net:
 services:
   postgres:
-    container_name: postgres
+    container_name: cocktailcoach-postgres
     image: postgres
     restart: always
     volumes:
@@ -12,8 +14,10 @@ services:
       POSTGRES_DB: db
     ports:
       - 5432:5432
+    networks:
+      - app-net
   meili:
-    container_name: meili
+    container_name: cocktailcoach-meili
     image: getmeili/meilisearch
     restart: always
     volumes:
@@ -21,7 +25,17 @@ services:
     environment:
       - MEILI_MASTER_KEY=${MEILIKEY}
     ports:
-      - 7700:7700
+      - 7701:7700
+    networks:
+      - app-net
+  app:
+    container_name: cocktailcoach
+    build: .
+    restart: always
+    ports:
+      - 3000:3000
+    networks:
+      - app-net
 volumes:
   postgres-data: {}
   meili-data: {}
