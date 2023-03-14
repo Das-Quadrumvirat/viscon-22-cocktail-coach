@@ -6,7 +6,7 @@ An app to list, browse and interact with cocktail and drink recipies.
 
 Using data from [The Cocktail DB](https://www.thecocktaildb.com/)
 
-Available online soon.
+Available online at [cocktailcoach.vypxl.io](https://cocktailcoach.vypxl.io).
 
 ## Development
 
